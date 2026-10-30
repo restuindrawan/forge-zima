@@ -18,7 +18,7 @@ https://restuindrawan.github.io/forge-zima/store.json
 | App | Category | Image | Description |
 | --- | --- | --- | --- |
 | Seanime | Media | `umagistr/seanime:latest-rootless` | Self-hosted anime and manga media server (rootless, UID 1000) |
-| OpenCode | Developer | `ghcr.io/anomalyco/opencode:2.2.3` | Open source AI coding agent as a web app on port 4096. Set `OPENCODE_SERVER_PASSWORD` when installing. |
+| OpenCode | Developer | `ghcr.io/anomalyco/opencode:2.2.3` | Open source AI coding agent (`serve --service`) on port 4096, with OpenTunnel pair links for outside access. Set `OPENCODE_SERVER_PASSWORD` when installing. |
 
 ## Seanime notes
 
@@ -40,6 +40,19 @@ password = 'use-a-long-random-password'
 ```
 
 A password is not encryption. Prefer a VPN such as Tailscale or an HTTPS reverse proxy. Avoid forwarding plain HTTP port `3211` on your router.
+
+## OpenCode notes
+
+- OpenCode v2 has no `web` command. This app runs `opencode serve --service` on `0.0.0.0:4096`, with remote access enabled for OpenTunnel.
+- Locally, open `http://<zima-ip>:4096`. Do not forward port `4096` on your router.
+- From outside, run this in the container (ZimaOS container terminal, or SSH) and open the one-time link it prints. Links work once and expire within minutes:
+
+```bash
+opencode pair --remote
+```
+
+- Set `OPENCODE_SERVER_PASSWORD` at install; it is saved as the service password. If left empty, a random password is generated in the config folder. Read it with `opencode service get password`.
+- On first start the tunnel setup can take a minute. If it fails, the app still serves on the LAN and the container log tells you to retry the pair command.
 
 ## Repository structure
 

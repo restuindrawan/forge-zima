@@ -3,12 +3,29 @@ services:
   opencode:
     image: ghcr.io/anomalyco/opencode:2.2.3
     container_name: opencode
-    command: ["web", "--hostname", "0.0.0.0", "--port", "4096"]
+    # OpenCode v2 has no `web` command and no --hostname/--port on the
+    # root command. `serve --service` runs the v2 API and web server as
+    # the registered background service, which is also what `pair`
+    # (and its OpenTunnel remote links) requires.
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        opencode service set hostname 0.0.0.0
+        opencode service set port 4096
+        if [ -n "$$OPENCODE_SERVER_PASSWORD" ]; then
+          opencode service set password "$$OPENCODE_SERVER_PASSWORD"
+        fi
+        opencode service set remote true || echo "WARNING: OpenTunnel setup failed, serving on the LAN only. Retry later with: opencode pair --remote --yes"
+        echo "To connect from outside: run 'opencode pair --remote' in this container for a one-time link."
+        exec opencode serve --service
     environment:
       OPENCODE_SERVER_USERNAME: "${OPENCODE_SERVER_USERNAME:-opencode}"
       # No default password is shipped: this repo is public. Set
-      # OPENCODE_SERVER_PASSWORD when installing. Empty means the
-      # web UI is unsecured, which is only OK on a trusted LAN.
+      # OPENCODE_SERVER_PASSWORD when installing; it is saved as the
+      # service password on first start. If left empty, OpenCode
+      # generates a random service password and saves it in the
+      # config volume (read it with: opencode service get password).
       OPENCODE_SERVER_PASSWORD: "${OPENCODE_SERVER_PASSWORD:-}"
     working_dir: /workspace
     restart: unless-stopped
@@ -24,27 +41,33 @@ services:
         source: /DATA/AppData/$AppID/data
         target: /root/.local/share/opencode
       - type: bind
+        source: /DATA/AppData/$AppID/state
+        target: /root/.local/state/opencode
+      - type: bind
         source: /DATA/Workspace
         target: /workspace
     x-casaos:
       envs:
         - container: OPENCODE_SERVER_PASSWORD
           description:
-            en_US: Password for the OpenCode web UI (HTTP basic auth, username opencode). Strongly recommended. Required if OpenCode is reachable outside this machine. Never commit a real password to this public repo.
+            en_US: Server password, saved as the OpenCode service password on first start. Required because this app is published through OpenTunnel. Never commit a real password to this public repo.
         - container: OPENCODE_SERVER_USERNAME
           description:
-            en_US: Username for the OpenCode web UI. Defaults to opencode.
+            en_US: Username for clients connecting to the server. Defaults to opencode.
       ports:
         - container: "4096"
           description:
-            en_US: OpenCode WebUI port
+            en_US: OpenCode WebUI port (LAN access; outside access uses OpenTunnel pair links)
       volumes:
         - container: /root/.config/opencode
           description:
-            en_US: OpenCode config directory
+            en_US: OpenCode config directory. Also stores the service config (hostname, port, password, tunnel route), keep it private.
         - container: /root/.local/share/opencode
           description:
             en_US: OpenCode data directory. Contains auth tokens and session data, keep it private.
+        - container: /root/.local/state/opencode
+          description:
+            en_US: OpenCode state directory (service registration and logs)
         - container: /workspace
           description:
             en_US: Workspace directory. Projects you want OpenCode to work on.
@@ -63,13 +86,15 @@ x-casaos:
   description:
     en_US: |
       OpenCode is an open source AI coding agent. This package runs
-      OpenCode 2.2.3 as a web app (opencode web) so you can use it from
-      your browser on your ZimaOS box, with your projects mounted at
-      /workspace.
+      OpenCode 2.2.3 (opencode serve --service) on your ZimaOS box,
+      with your projects mounted at /workspace.
 
-      Set OPENCODE_SERVER_PASSWORD when installing. Without it the web
-      UI is unsecured, and anyone who can reach it can run commands in
-      the container with access to your workspace.
+      Locally, open it on port 4096. From outside your network, do not
+      forward the port on your router: this app enables OpenCode's
+      remote access, so run `opencode pair --remote` inside the
+      container to print a one-time OpenTunnel link (and QR code) to
+      connect a browser or app. Links work once and expire within
+      minutes. Set OPENCODE_SERVER_PASSWORD when installing.
   author: restuindrawan
   developer: Anomaly
   category: Developer
@@ -79,24 +104,34 @@ x-casaos:
   version: "2.2.3"
   update_at: "2026-10-30"
   release_notes:
-    en_US: Initial release. OpenCode 2.2.3 web UI on port 4096, with optional OPENCODE_SERVER_PASSWORD basic auth (empty by default).
+    en_US: Fix v2 startup. Replace the removed `web --hostname/--port` command with `serve --service` on 0.0.0.0:4096, enable OpenTunnel remote access, and save OPENCODE_SERVER_PASSWORD as the service password. Use `opencode pair --remote` in the container for one-time outside links.
   website: https://opencode.ai
   repo: https://github.com/anomalyco/opencode
   support: https://github.com/anomalyco/opencode/issues
-  docs: https://opencode.ai/docs/web
+  docs: https://opencode.ai/docs
   tips:
     before_install:
       en_US: |
-        Set OPENCODE_SERVER_PASSWORD during install. OpenCode can run
-        shell commands and edit files in /workspace, so an unsecured
-        web UI is remote code execution for anyone who can reach it.
-        Use it without a password only on a trusted LAN, and prefer a
-        VPN or HTTPS reverse proxy over publishing it to the internet.
+        Set OPENCODE_SERVER_PASSWORD during install. This app publishes
+        OpenCode through OpenTunnel (opencode pair --remote), and
+        OpenCode can run shell commands and edit files in /workspace,
+        so anyone who can reach it without the password or a one-time
+        pair link gets remote code execution in the container.
+
+        After install: give the tunnel a minute to set up on first
+        start, then run this in the container (ZimaOS container
+        terminal, or SSH): opencode pair --remote
+        It prints a one-time link and QR code to connect from outside.
+        Links work once and expire within minutes; run it again for a
+        new one. Locally you can also open http://<zima-ip>:4096.
+        If you left the password empty, a random one was generated and
+        saved; read it with: opencode service get password
 
         Your provider API keys and sessions are stored in the data
-        folder (/root/.local/share/opencode, including auth.json).
-        Keep that folder private. Adjust the /workspace path during
-        install to point at the projects you want OpenCode to work on.
+        folder (/root/.local/share/opencode, including auth.json), and
+        the service password and tunnel route in the config folder.
+        Keep both private. Adjust the /workspace path during install
+        to point at the projects you want OpenCode to work on.
 
         Note: the upstream image is minimal (OpenCode and ripgrep, no
         git or language toolchains), so tasks that need those tools
