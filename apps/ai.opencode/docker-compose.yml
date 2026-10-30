@@ -1,0 +1,38 @@
+name: opencode
+services:
+  opencode:
+    image: ghcr.io/anomalyco/opencode:2.2.3
+    container_name: opencode
+    command: ["web", "--hostname", "0.0.0.0", "--port", "4096"]
+    environment:
+      OPENCODE_SERVER_USERNAME: "${OPENCODE_SERVER_USERNAME:-opencode}"
+      # No default password is shipped: this repo is public. Set
+      # OPENCODE_SERVER_PASSWORD when installing. Empty means the
+      # web UI is unsecured, which is only OK on a trusted LAN.
+      OPENCODE_SERVER_PASSWORD: "${OPENCODE_SERVER_PASSWORD:-}"
+    working_dir: /workspace
+    restart: unless-stopped
+    ports:
+      - target: 4096
+        published: "4096"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/config
+        target: /root/.config/opencode
+      - type: bind
+        source: /DATA/AppData/$AppID/data
+        target: /root/.local/share/opencode
+      - type: bind
+        source: /DATA/Workspace
+        target: /workspace
+x-casaos:
+  id: ai.opencode
+  main: opencode
+  index: /
+  port_map: "4096"
+  scheme: http
+  icon: https://restuindrawan.github.io/forge-zima/apps/ai.opencode/assets/icon.png
+  title:
+    en_US: OpenCode
+  version: "2.2.3"

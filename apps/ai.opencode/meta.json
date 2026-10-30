@@ -1,0 +1,32 @@
+{
+  "tagline": "The open source AI coding agent, in your browser",
+  "description": "OpenCode is an open source AI coding agent. This package runs\nOpenCode 2.2.3 as a web app (opencode web) so you can use it from\nyour browser on your ZimaOS box, with your projects mounted at\n/workspace.\n\nSet OPENCODE_SERVER_PASSWORD when installing. Without it the web\nUI is unsecured, and anyone who can reach it can run commands in\nthe container with access to your workspace.\n",
+  "author": "restuindrawan",
+  "developer": "Anomaly",
+  "category": "Developer",
+  "architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "update_at": "2026-10-30",
+  "website": "https://opencode.ai",
+  "repo": "https://github.com/anomalyco/opencode",
+  "support": "https://github.com/anomalyco/opencode/issues",
+  "docs": "https://opencode.ai/docs/web",
+  "tips": {
+    "before_install": "Set OPENCODE_SERVER_PASSWORD during install. OpenCode can run\nshell commands and edit files in /workspace, so an unsecured\nweb UI is remote code execution for anyone who can reach it.\nUse it without a password only on a trusted LAN, and prefer a\nVPN or HTTPS reverse proxy over publishing it to the internet.\n\nYour provider API keys and sessions are stored in the data\nfolder (/root/.local/share/opencode, including auth.json).\nKeep that folder private. Adjust the /workspace path during\ninstall to point at the projects you want OpenCode to work on.\n\nNote: the upstream image is minimal (OpenCode and ripgrep, no\ngit or language toolchains), so tasks that need those tools\ninside the container will be limited.\n"
+  },
+  "title": "OpenCode",
+  "release_note": "Initial release. OpenCode 2.2.3 web UI on port 4096, with optional OPENCODE_SERVER_PASSWORD basic auth (empty by default).",
+  "base_url": "https://restuindrawan.github.io/forge-zima",
+  "id": "ai.opencode",
+  "version": "2.2.3",
+  "categories": [
+    "developer"
+  ],
+  "min_memory": 0,
+  "min_image_size": {
+    "amd64": 128496842,
+    "arm64": 128066779
+  }
+}

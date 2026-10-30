@@ -1,9 +1,30 @@
 {
   "version": 2,
-  "updated_at": "2026-10-30T13:35:38Z",
-  "app_count": 1,
+  "updated_at": "2026-10-30T13:50:56Z",
+  "app_count": 2,
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "apps": [
+    {
+      "id": "ai.opencode",
+      "title": "OpenCode",
+      "tagline": "The open source AI coding agent, in your browser",
+      "category": "Developer",
+      "categories": [
+        "developer"
+      ],
+      "author": "restuindrawan",
+      "developer": "Anomaly",
+      "architectures": [
+        "amd64",
+        "arm64"
+      ],
+      "icon": "/apps/ai.opencode/assets/icon.png",
+      "thumbnail": "",
+      "compose_url": "/apps/ai.opencode/docker-compose.yml",
+      "meta_url": "/apps/ai.opencode/meta.json",
+      "content_hash": "d2be27f3",
+      "version": "2.2.3"
+    },
     {
       "id": "app.seanime",
       "title": "Seanime",
