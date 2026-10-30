@@ -1,53 +1,14 @@
 name: seanime-cuda
 services:
-  # One-shot root helper: makes the writable folders (config and
-  # downloads) owned by the UID/GID Seanime runs as, and ensures the
-  # anime folder top level is traversable by it. It never recursively
-  # chowns your anime files. The CUDA image's user defaults to 1001.
-  seanime-cuda-permissions:
-    image: alpine:latest
-    container_name: seanime-cuda-permissions
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        UID_VAL="$${PUID:-1001}"
-        GID_VAL="$${PGID:-1001}"
-        mkdir -p /config /downloads
-        chown -R "$$UID_VAL:$$GID_VAL" /config /downloads
-        chown "$$UID_VAL:$$GID_VAL" /anime
-        chmod u+rwX /config /downloads /anime
-        echo "permissions: config/downloads owned by $$UID_VAL:$$GID_VAL"
-    environment:
-      PUID: "${PUID:-1001}"
-      PGID: "${PGID:-1001}"
-    volumes:
-      - type: bind
-        source: /DATA/AppData/$AppID/config
-        target: /config
-      - type: bind
-        source: /DATA/Media/Anime
-        target: /anime
-      - type: bind
-        source: /DATA/Media/Downloads
-        target: /downloads
-    restart: "no"
   seanime-cuda:
     image: umagistr/seanime:v3.10.4-cuda
     container_name: seanime-cuda
-    # Run as the owner of your media if its UID/GID is not 1001:1001.
-    # Check with `ls -ln /DATA/Media/Anime` and set PUID/PGID at install.
-    user: "${PUID:-1001}:${PGID:-1001}"
-    depends_on:
-      seanime-cuda-permissions:
-        condition: service_completed_successfully
     # Requires the NVIDIA driver and NVIDIA Container Toolkit on the host.
     runtime: nvidia
     group_add:
       - video
     environment:
       SEANIME_SERVER_HOST: "0.0.0.0"
-      PUID: "${PUID:-1001}"
-      PGID: "${PGID:-1001}"
       NVIDIA_VISIBLE_DEVICES: "all"
       NVIDIA_DRIVER_CAPABILITIES: "all"
     # No default password is shipped: this repo is public. Set

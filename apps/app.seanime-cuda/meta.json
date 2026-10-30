@@ -13,10 +13,10 @@
   "support": "https://github.com/5rahim/seanime/issues",
   "docs": "https://docs.seanime.app",
   "tips": {
-    "before_install": "NVIDIA NVENC/NVDEC: this variant needs an NVIDIA GPU, the NVIDIA\ndriver and the NVIDIA Container Toolkit on the Zima box, with the\n`nvidia` Docker runtime available. If that runtime is missing, the\ncontainer will fail to start. The image's maintainer notes\nhardware features could not be tested in CI, so check them on\nyour own hardware.\n\nDifferent default UID: the CUDA image runs as UID:GID 1001:1001,\nnot 1000. An init step fixes ownership of the config and downloads\nfolders on every start, and never touches your anime files. If\nthe scan shows an empty library, your media is probably owned by\nanother user. Run `ls -ln /DATA/Media/Anime`, then set PUID and\nPGID to the owner's UID and GID at install.\n\nThis app has its own config folder and WebUI port (3214), so it\ndoes not share settings with the other Seanime variants. Do not run\ntwo variants against the same downloads folder at the same time.\n\nPublishing outside your LAN: set a server password first. Seanime's\ndocs require server.password when the server is reachable from\noutside this machine. Set SEANIME_SERVER_PASSWORD during install,\nor edit config.toml in the config folder after the first start and\nset password under [server], then restart. A password is not\nencryption: prefer a VPN such as Tailscale or an HTTPS reverse\nproxy over forwarding plain HTTP port 3214 on your router.\n"
+    "before_install": "NVIDIA NVENC/NVDEC: this variant needs an NVIDIA GPU, the NVIDIA\ndriver and the NVIDIA Container Toolkit on the Zima box, with the\n`nvidia` Docker runtime available. If that runtime is missing, the\ncontainer will fail to start. The image's maintainer notes\nhardware features could not be tested in CI, so check them on\nyour own hardware.\n\nDifferent default UID: the CUDA image runs as UID:GID 1001:1001,\nnot 1000. The config, anime and downloads folders must be\nreadable and writable by that user.\n\nThis app has its own config folder and WebUI port (3214), so it\ndoes not share settings with the other Seanime variants. Do not run\ntwo variants against the same downloads folder at the same time.\n\nPublishing outside your LAN: set a server password first. Seanime's\ndocs require server.password when the server is reachable from\noutside this machine. Set SEANIME_SERVER_PASSWORD during install,\nor edit config.toml in the config folder after the first start and\nset password under [server], then restart. A password is not\nencryption: prefer a VPN such as Tailscale or an HTTPS reverse\nproxy over forwarding plain HTTP port 3214 on your router.\n"
   },
   "title": "Seanime (NVIDIA CUDA)",
-  "release_note": "Add the NVIDIA CUDA Seanime variant, pinned to v3.10.4, on host port 3214 with the nvidia runtime, PUID/PGID (default 1001) and optional SEANIME_SERVER_PASSWORD.",
+  "release_note": "Add the NVIDIA CUDA Seanime variant, pinned to v3.10.4, on host port 3214 with the nvidia runtime and optional SEANIME_SERVER_PASSWORD.",
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "id": "app.seanime-cuda",
   "version": "3.10.4",
@@ -25,6 +25,6 @@
   ],
   "min_memory": 0,
   "min_image_size": {
-    "amd64": 421988924
+    "amd64": 418135204
   }
 }
