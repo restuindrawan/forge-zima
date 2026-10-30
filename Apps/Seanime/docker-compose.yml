@@ -32,7 +32,7 @@ services:
         target: /downloads
     restart: "no"
   seanime:
-    image: umagistr/seanime:latest-rootless
+    image: umagistr/seanime:v3.10.4-rootless
     container_name: seanime
     # Run as the owner of your media if its UID/GID is not 1000:1000.
     # Check with `ls -ln /DATA/Media/Anime` and set PUID/PGID at install.
@@ -100,7 +100,7 @@ x-casaos:
   scheme: http
   icon: https://cdn.jsdelivr.net/gh/restuindrawan/forge-zima@main/Apps/Seanime/icon.png
   title:
-    en_US: Seanime
+    en_US: Seanime (Rootless)
   tagline:
     en_US: Self-hosted anime and manga media server (rootless)
   description:
@@ -110,7 +110,7 @@ x-casaos:
       library, streams and downloads episodes, and plays them with your media
       player of choice.
 
-      This package uses the rootless image (umagistr/seanime:latest-rootless),
+      This package uses the rootless image (umagistr/seanime:v3.10.4-rootless),
       which runs as the non-root user seanime (UID 1000) for improved security.
   author: restuindrawan
   developer: 5rahim
@@ -119,9 +119,9 @@ x-casaos:
     - amd64
     - arm64
   version: "3.10.4"
-  update_at: "2026-10-30"
+  update_at: "2026-10-31"
   release_notes:
-    en_US: Fix rootless permissions. A one-shot helper makes config and downloads writable by Seanime's UID/GID, and PUID/PGID let you match the media owner's UID/GID when scans show an empty library. Host port 3211 forwards to container port 43211, with SEANIME_SERVER_HOST=0.0.0.0 and optional SEANIME_SERVER_PASSWORD.
+    en_US: Pin the image to v3.10.4-rootless instead of latest-rootless, and rename the app to Seanime (Rootless) now that Root, Intel HwAccel and NVIDIA CUDA variants exist.
   website: https://seanime.app
   repo: https://github.com/5rahim/seanime
   support: https://github.com/5rahim/seanime/issues

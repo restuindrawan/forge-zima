@@ -1,0 +1,170 @@
+name: seanime-cuda
+services:
+  # One-shot root helper: makes the writable folders (config and
+  # downloads) owned by the UID/GID Seanime runs as, and ensures the
+  # anime folder top level is traversable by it. It never recursively
+  # chowns your anime files. The CUDA image's user defaults to 1001.
+  seanime-cuda-permissions:
+    image: alpine:latest
+    container_name: seanime-cuda-permissions
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        UID_VAL="$${PUID:-1001}"
+        GID_VAL="$${PGID:-1001}"
+        mkdir -p /config /downloads
+        chown -R "$$UID_VAL:$$GID_VAL" /config /downloads
+        chown "$$UID_VAL:$$GID_VAL" /anime
+        chmod u+rwX /config /downloads /anime
+        echo "permissions: config/downloads owned by $$UID_VAL:$$GID_VAL"
+    environment:
+      PUID: "${PUID:-1001}"
+      PGID: "${PGID:-1001}"
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/config
+        target: /config
+      - type: bind
+        source: /DATA/Media/Anime
+        target: /anime
+      - type: bind
+        source: /DATA/Media/Downloads
+        target: /downloads
+    restart: "no"
+  seanime-cuda:
+    image: umagistr/seanime:v3.10.4-cuda
+    container_name: seanime-cuda
+    # Run as the owner of your media if its UID/GID is not 1001:1001.
+    # Check with `ls -ln /DATA/Media/Anime` and set PUID/PGID at install.
+    user: "${PUID:-1001}:${PGID:-1001}"
+    depends_on:
+      seanime-cuda-permissions:
+        condition: service_completed_successfully
+    # Requires the NVIDIA driver and NVIDIA Container Toolkit on the host.
+    runtime: nvidia
+    group_add:
+      - video
+    environment:
+      SEANIME_SERVER_HOST: "0.0.0.0"
+      PUID: "${PUID:-1001}"
+      PGID: "${PGID:-1001}"
+      NVIDIA_VISIBLE_DEVICES: "all"
+      NVIDIA_DRIVER_CAPABILITIES: "all"
+    # No default password is shipped: this repo is public. Set
+    # SEANIME_SERVER_PASSWORD when installing (see tips), or set
+    # server.password in config.toml after the first start.
+    command: ["/app/seanime", "--password", "${SEANIME_SERVER_PASSWORD:-}"]
+    restart: unless-stopped
+    ports:
+      - target: 43211
+        published: "3214"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/config
+        target: /home/seanime/.config/Seanime
+      - type: bind
+        source: /DATA/Media/Anime
+        target: /anime
+      - type: bind
+        source: /DATA/Media/Downloads
+        target: /downloads
+    x-casaos:
+      envs:
+        - container: SEANIME_SERVER_HOST
+          description:
+            en_US: Bind address inside the container. Must be 0.0.0.0 so the published host port can reach Seanime, which defaults to 127.0.0.1.
+        - container: SEANIME_SERVER_PASSWORD
+          description:
+            en_US: Server password for remote access. Required if Seanime is reachable outside this machine. Leave empty only on a trusted LAN. Never commit a real password to this public repo.
+        - container: PUID
+          description:
+            en_US: User ID Seanime runs as. Check with `ls -ln /DATA/Media/Anime` and set this to the folder owner's UID if scanning shows an empty library. Defaults to 1001 for the CUDA image.
+        - container: PGID
+          description:
+            en_US: Group ID Seanime runs as. Check with `ls -ln /DATA/Media/Anime` and set this to the folder owner's GID if scanning shows an empty library. Defaults to 1001 for the CUDA image.
+        - container: NVIDIA_VISIBLE_DEVICES
+          description:
+            en_US: Which NVIDIA GPUs the container can use. `all`, or a GPU index such as `0`.
+        - container: NVIDIA_DRIVER_CAPABILITIES
+          description:
+            en_US: NVIDIA driver capabilities exposed to the container. Keep `all` unless you know you need less.
+      ports:
+        - container: "43211"
+          description:
+            en_US: Seanime WebUI port
+      volumes:
+        - container: /home/seanime/.config/Seanime
+          description:
+            en_US: Seanime config directory
+        - container: /anime
+          description:
+            en_US: Anime library directory
+        - container: /downloads
+          description:
+            en_US: Downloads directory
+
+x-casaos:
+  id: app.seanime-cuda
+  main: seanime-cuda
+  index: /
+  port_map: "3214"
+  scheme: http
+  icon: https://cdn.jsdelivr.net/gh/restuindrawan/forge-zima@main/Apps/Seanime-CUDA/icon.png
+  title:
+    en_US: Seanime (NVIDIA CUDA)
+  tagline:
+    en_US: Self-hosted anime and manga media server with NVIDIA hardware transcoding
+  description:
+    en_US: |
+      Seanime is an open-source media server with a web interface and desktop
+      app for anime and manga. It integrates with AniList, manages your local
+      library, streams and downloads episodes, and plays them with your media
+      player of choice.
+
+      This package uses the CUDA image (umagistr/seanime:*-cuda). It runs as
+      a non-root user (UID 1001) and ships an FFmpeg build with NVENC/NVDEC
+      for NVIDIA GPUs. It needs an NVIDIA GPU, the NVIDIA driver and the
+      NVIDIA Container Toolkit on an amd64 host, and uses host port 3214 so
+      it can run next to the other Seanime variants.
+  author: restuindrawan
+  developer: 5rahim
+  category: Media
+  architectures:
+    - amd64
+  version: "3.10.4"
+  update_at: "2026-10-31"
+  release_notes:
+    en_US: Add the NVIDIA CUDA Seanime variant, pinned to v3.10.4, on host port 3214 with the nvidia runtime, PUID/PGID (default 1001) and optional SEANIME_SERVER_PASSWORD.
+  website: https://seanime.app
+  repo: https://github.com/5rahim/seanime
+  support: https://github.com/5rahim/seanime/issues
+  docs: https://docs.seanime.app
+  tips:
+    before_install:
+      en_US: |
+        NVIDIA NVENC/NVDEC: this variant needs an NVIDIA GPU, the NVIDIA
+        driver and the NVIDIA Container Toolkit on the Zima box, with the
+        `nvidia` Docker runtime available. If that runtime is missing, the
+        container will fail to start. The image's maintainer notes
+        hardware features could not be tested in CI, so check them on
+        your own hardware.
+
+        Different default UID: the CUDA image runs as UID:GID 1001:1001,
+        not 1000. An init step fixes ownership of the config and downloads
+        folders on every start, and never touches your anime files. If
+        the scan shows an empty library, your media is probably owned by
+        another user. Run `ls -ln /DATA/Media/Anime`, then set PUID and
+        PGID to the owner's UID and GID at install.
+
+        This app has its own config folder and WebUI port (3214), so it
+        does not share settings with the other Seanime variants. Do not run
+        two variants against the same downloads folder at the same time.
+
+        Publishing outside your LAN: set a server password first. Seanime's
+        docs require server.password when the server is reachable from
+        outside this machine. Set SEANIME_SERVER_PASSWORD during install,
+        or edit config.toml in the config folder after the first start and
+        set password under [server], then restart. A password is not
+        encryption: prefer a VPN such as Tailscale or an HTTPS reverse
+        proxy over forwarding plain HTTP port 3214 on your router.

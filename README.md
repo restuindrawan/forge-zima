@@ -17,12 +17,28 @@ https://restuindrawan.github.io/forge-zima/store.json
 
 | App | Category | Image | Description |
 | --- | --- | --- | --- |
-| Seanime | Media | `umagistr/seanime:latest-rootless` | Self-hosted anime and manga media server (rootless, UID 1000) |
+| Seanime (Rootless) | Media | `umagistr/seanime:v3.10.4-rootless` | Self-hosted anime and manga media server (non-root, UID 1000), port `3211` |
+| Seanime (Root) | Media | `umagistr/seanime:v3.10.4` | Default image, runs as root, no UID/GID matching needed, port `3212` |
+| Seanime (Intel HwAccel) | Media | `umagistr/seanime:v3.10.4-hwaccel` | Non-root, Jellyfin-FFmpeg with Intel QSV/VAAPI via `/dev/dri`, amd64 only, port `3213` |
+| Seanime (NVIDIA CUDA) | Media | `umagistr/seanime:v3.10.4-cuda` | Non-root (UID 1001), NVENC/NVDEC via the `nvidia` runtime, amd64 only, port `3214` |
 | OpenCode | Developer | `ghcr.io/anomalyco/opencode:2.2.5` | Open source AI coding agent (`serve --service`) on port 4096, with OpenTunnel pair links for outside access. Set `OPENCODE_SERVER_PASSWORD` when installing. |
+
+## Seanime variants
+
+Seanime ships as four separate store apps, one per image variant from [`umag/seanime-docker`](https://github.com/umag/seanime-docker/tree/main/examples), so you can install them side by side and compare. Each has its own app ID, config folder under `/DATA/AppData/<app-id>/config`, and host port, so settings are not shared. Do not point two variants at the same downloads folder at the same time.
+
+| Variant | Pick it when | Notes |
+| --- | --- | --- |
+| Rootless | You want the safe default | Runs as UID 1000. Fix ownership with `PUID`/`PGID`. |
+| Root | Media ownership is messy and you want it to just work | Runs as root. Files in downloads end up root-owned. |
+| Intel HwAccel | The box has an Intel GPU and you transcode | Set `VIDEO_GID`/`RENDER_GID` from `ls -ln /dev/dri`. |
+| NVIDIA CUDA | The box has an NVIDIA GPU with the Container Toolkit | Runs as UID 1001. Needs the `nvidia` Docker runtime. |
+
+Upstream says the hardware variants could not be tested in CI, so verify GPU transcoding on your own hardware. All four apps are pinned to `v3.10.4`, so bump them by hand.
 
 ## Seanime notes
 
-- Based on the [rootless example](https://github.com/umag/seanime-docker/tree/main/examples/02-rootless) from `umag/seanime-docker`.
+- The rootless app is based on the [rootless example](https://github.com/umag/seanime-docker/tree/main/examples/02-rootless) from `umag/seanime-docker`. The other variants follow the same pattern, but the config path differs: `/root/.config/Seanime` for Root, `/home/seanime/.config/Seanime` for the rest.
 - Runs as the non-root user `seanime` (UID `1000`, GID `1000` by default). A one-shot helper fixes ownership of config and downloads on each start. If the library scans empty, check `ls -ln /DATA/Media/Anime` and set `PUID`/`PGID` to the media owner's UID/GID at install.
 - Default volumes: config at `/DATA/AppData/$AppID/config`, anime at `/DATA/Media/Anime`, downloads at `/DATA/Media/Downloads`. Change them during install if your library lives elsewhere.
 - WebUI port: `3211` on the host, forwarding to `43211` in the container.
@@ -59,9 +75,12 @@ opencode pair --remote
 ```text
 forge-zima/
 ├── Apps/
-│   ├── Seanime/
+│   ├── Seanime/                 # Rootless variant
 │   │   ├── docker-compose.yml   # Compose + top-level x-casaos metadata
 │   │   └── icon.png
+│   ├── Seanime-Root/            # Same layout as above
+│   ├── Seanime-HwAccel/         # Same layout as above
+│   ├── Seanime-CUDA/            # Same layout as above
 │   └── OpenCode/
 │       ├── docker-compose.yml
 │       └── icon.png
