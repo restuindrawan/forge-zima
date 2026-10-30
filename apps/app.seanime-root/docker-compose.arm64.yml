@@ -1,0 +1,36 @@
+name: seanime-root
+services:
+  seanime-root:
+    image: umagistr/seanime:v3.10.4@sha256:17fee2e6c1f068134dadcfc7a9d7e66bf70ee8cea03a8c0931adf2e00b2c1fe1
+    container_name: seanime-root
+    environment:
+      SEANIME_SERVER_HOST: "0.0.0.0"
+    # No default password is shipped: this repo is public. Set
+    # SEANIME_SERVER_PASSWORD when installing (see tips), or set
+    # server.password in config.toml after the first start.
+    command: ["/app/seanime", "--password", "${SEANIME_SERVER_PASSWORD:-}"]
+    restart: unless-stopped
+    ports:
+      - target: 43211
+        published: "3212"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/config
+        target: /root/.config/Seanime
+      - type: bind
+        source: /DATA/Media/Anime
+        target: /anime
+      - type: bind
+        source: /DATA/Media/Downloads
+        target: /downloads
+x-casaos:
+  id: app.seanime-root
+  main: seanime-root
+  index: /
+  port_map: "3212"
+  scheme: http
+  icon: https://restuindrawan.github.io/forge-zima/apps/app.seanime-root/assets/icon.png
+  title:
+    en_US: Seanime (Root)
+  version: "3.10.4"

@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "updated_at": "2026-10-30T23:17:14Z",
-  "app_count": 2,
+  "updated_at": "2026-10-30T23:39:39Z",
+  "app_count": 5,
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "apps": [
     {
@@ -22,12 +22,12 @@
       "thumbnail": "",
       "compose_url": "/apps/ai.opencode/docker-compose.yml",
       "meta_url": "/apps/ai.opencode/meta.json",
-      "content_hash": "45dcf7c7",
-      "version": "2.2.3"
+      "content_hash": "7db080f2",
+      "version": "2.2.5"
     },
     {
       "id": "app.seanime",
-      "title": "Seanime",
+      "title": "Seanime (Rootless)",
       "tagline": "Self-hosted anime and manga media server (rootless)",
       "category": "Media",
       "categories": [
@@ -43,7 +43,68 @@
       "thumbnail": "",
       "compose_url": "/apps/app.seanime/docker-compose.yml",
       "meta_url": "/apps/app.seanime/meta.json",
-      "content_hash": "4a3b4501",
+      "content_hash": "ae530d45",
+      "version": "3.10.4"
+    },
+    {
+      "id": "app.seanime-cuda",
+      "title": "Seanime (NVIDIA CUDA)",
+      "tagline": "Self-hosted anime and manga media server with NVIDIA hardware transcoding",
+      "category": "Media",
+      "categories": [
+        "media"
+      ],
+      "author": "restuindrawan",
+      "developer": "5rahim",
+      "architectures": [
+        "amd64"
+      ],
+      "icon": "/apps/app.seanime-cuda/assets/icon.png",
+      "thumbnail": "",
+      "compose_url": "/apps/app.seanime-cuda/docker-compose.yml",
+      "meta_url": "/apps/app.seanime-cuda/meta.json",
+      "content_hash": "bfc812df",
+      "version": "3.10.4"
+    },
+    {
+      "id": "app.seanime-hwaccel",
+      "title": "Seanime (Intel HwAccel)",
+      "tagline": "Self-hosted anime and manga media server with Intel hardware transcoding",
+      "category": "Media",
+      "categories": [
+        "media"
+      ],
+      "author": "restuindrawan",
+      "developer": "5rahim",
+      "architectures": [
+        "amd64"
+      ],
+      "icon": "/apps/app.seanime-hwaccel/assets/icon.png",
+      "thumbnail": "",
+      "compose_url": "/apps/app.seanime-hwaccel/docker-compose.yml",
+      "meta_url": "/apps/app.seanime-hwaccel/meta.json",
+      "content_hash": "797cc5de",
+      "version": "3.10.4"
+    },
+    {
+      "id": "app.seanime-root",
+      "title": "Seanime (Root)",
+      "tagline": "Self-hosted anime and manga media server (default root image)",
+      "category": "Media",
+      "categories": [
+        "media"
+      ],
+      "author": "restuindrawan",
+      "developer": "5rahim",
+      "architectures": [
+        "amd64",
+        "arm64"
+      ],
+      "icon": "/apps/app.seanime-root/assets/icon.png",
+      "thumbnail": "",
+      "compose_url": "/apps/app.seanime-root/docker-compose.yml",
+      "meta_url": "/apps/app.seanime-root/meta.json",
+      "content_hash": "48ece0d7",
       "version": "3.10.4"
     }
   ]

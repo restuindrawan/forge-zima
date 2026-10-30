@@ -1,6 +1,6 @@
 {
   "tagline": "The open source AI coding agent, in your browser",
-  "description": "OpenCode is an open source AI coding agent. This package runs\nOpenCode 2.2.3 (opencode serve --service) on your ZimaOS box,\nwith your projects mounted at /workspace.\n\nLocally, open it on port 4096. From outside your network, do not\nforward the port on your router: this app enables OpenCode's\nremote access, so run `opencode pair --remote` inside the\ncontainer to print a one-time OpenTunnel link (and QR code) to\nconnect a browser or app. Links work once and expire within\nminutes. Set OPENCODE_SERVER_PASSWORD when installing.\n",
+  "description": "OpenCode is an open source AI coding agent. This package runs\nOpenCode 2.2.5 (opencode serve --service) on your ZimaOS box,\nwith your projects mounted at /workspace.\n\nLocally, open it on port 4096. From outside your network, do not\nforward the port on your router: this app enables OpenCode's\nremote access, so run `opencode pair --remote` inside the\ncontainer to print a one-time OpenTunnel link (and QR code) to\nconnect a browser or app. Links work once and expire within\nminutes. Set OPENCODE_SERVER_PASSWORD when installing.\n",
   "author": "restuindrawan",
   "developer": "Anomaly",
   "category": "Developer",
@@ -8,7 +8,7 @@
     "amd64",
     "arm64"
   ],
-  "update_at": "2026-10-30",
+  "update_at": "2026-10-31",
   "website": "https://opencode.ai",
   "repo": "https://github.com/anomalyco/opencode",
   "support": "https://github.com/anomalyco/opencode/issues",
@@ -17,16 +17,16 @@
     "before_install": "Set OPENCODE_SERVER_PASSWORD during install. This app publishes\nOpenCode through OpenTunnel (opencode pair --remote), and\nOpenCode can run shell commands and edit files in /workspace,\nso anyone who can reach it without the password or a one-time\npair link gets remote code execution in the container.\n\nAfter install: give the tunnel a minute to set up on first\nstart, then run this in the container (ZimaOS container\nterminal, or SSH): opencode pair --remote\nIt prints a one-time link and QR code to connect from outside.\nLinks work once and expire within minutes; run it again for a\nnew one. Locally you can also open http://<zima-ip>:4096.\nIf you left the password empty, a random one was generated and\nsaved; read it with: opencode service get password\n\nYour provider API keys and sessions are stored in the data\nfolder (/root/.local/share/opencode, including auth.json), and\nthe service password and tunnel route in the config folder.\nKeep both private. Adjust the /workspace path during install\nto point at the projects you want OpenCode to work on.\n\nNote: the upstream image is minimal (OpenCode and ripgrep, no\ngit or language toolchains), so tasks that need those tools\ninside the container will be limited.\n"
   },
   "title": "OpenCode",
-  "release_note": "Fix v2 startup. Replace the removed `web --hostname/--port` command with `serve --service` on 0.0.0.0:4096, enable OpenTunnel remote access, and save OPENCODE_SERVER_PASSWORD as the service password. Use `opencode pair --remote` in the container for one-time outside links.",
+  "release_note": "Update OpenCode to 2.2.5. Startup is unchanged (`serve --service` on 0.0.0.0:4096 with OpenTunnel remote access). Use `opencode pair --remote` in the container for one-time outside links.",
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "id": "ai.opencode",
-  "version": "2.2.3",
+  "version": "2.2.5",
   "categories": [
     "developer"
   ],
   "min_memory": 0,
   "min_image_size": {
-    "amd64": 128496842,
-    "arm64": 128066779
+    "amd64": 128620892,
+    "arm64": 128174515
   }
 }

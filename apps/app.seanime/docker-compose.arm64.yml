@@ -32,7 +32,7 @@ services:
         target: /downloads
     restart: "no"
   seanime:
-    image: umagistr/seanime:latest-rootless@sha256:406a1ece81438e56def5bb41f02f66cc49778e399192e4f83a3ce5a6bc1bf6ed
+    image: umagistr/seanime:v3.10.4-rootless@sha256:406a1ece81438e56def5bb41f02f66cc49778e399192e4f83a3ce5a6bc1bf6ed
     container_name: seanime
     # Run as the owner of your media if its UID/GID is not 1000:1000.
     # Check with `ls -ln /DATA/Media/Anime` and set PUID/PGID at install.
@@ -71,5 +71,5 @@ x-casaos:
   scheme: http
   icon: https://restuindrawan.github.io/forge-zima/apps/app.seanime/assets/icon.png
   title:
-    en_US: Seanime
+    en_US: Seanime (Rootless)
   version: "3.10.4"

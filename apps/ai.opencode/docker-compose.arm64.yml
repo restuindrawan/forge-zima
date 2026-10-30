@@ -1,7 +1,7 @@
 name: opencode
 services:
   opencode:
-    image: ghcr.io/anomalyco/opencode:2.2.3@sha256:423ddc18272d1743844cf20be2e7c827acffa62ee8775006c4f3480f34ac7481
+    image: ghcr.io/anomalyco/opencode:2.2.5@sha256:0d6f04f619d0e31cb9b02b4512975b89561a9c65317d437be15729b29158a3a4
     container_name: opencode
     # OpenCode v2 has no `web` command and no --hostname/--port on the
     # root command. `serve --service` runs the v2 API and web server as
@@ -55,4 +55,4 @@ x-casaos:
   icon: https://restuindrawan.github.io/forge-zima/apps/ai.opencode/assets/icon.png
   title:
     en_US: OpenCode
-  version: "2.2.3"
+  version: "2.2.5"
