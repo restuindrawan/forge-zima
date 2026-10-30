@@ -1,0 +1,1 @@
+umagistr/seanime:latest-rootless sha256:b7275b11ee088e00ebe35d87c3caf4c740363b20307aa832c08fdd78758fb7e7

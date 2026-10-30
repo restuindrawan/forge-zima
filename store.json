@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "store_id": "forge-zima",
+  "name": "forge-zima",
+  "description": "Personal community app store for ZimaOS.",
+  "maintainer": "restuindrawan",
+  "url": "https://github.com/restuindrawan/forge-zima"
+}

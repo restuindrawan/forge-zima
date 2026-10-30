@@ -1,0 +1,32 @@
+{
+  "tagline": "Self-hosted anime and manga media server (rootless)",
+  "description": "Seanime is an open-source media server with a web interface and desktop\napp for anime and manga. It integrates with AniList, manages your local\nlibrary, streams and downloads episodes, and plays them with your media\nplayer of choice.\n\nThis package uses the rootless image (umagistr/seanime:latest-rootless),\nwhich runs as the non-root user seanime (UID 1000) for improved security.\n",
+  "author": "restuindrawan",
+  "developer": "5rahim",
+  "category": "Media",
+  "architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "update_at": "2026-10-30",
+  "website": "https://seanime.app",
+  "repo": "https://github.com/5rahim/seanime",
+  "support": "https://github.com/5rahim/seanime/issues",
+  "docs": "https://docs.seanime.app",
+  "tips": {
+    "before_install": "Rootless image: Seanime runs as UID 1000. Make sure the config, anime,\nand downloads folders are writable by UID 1000, otherwise Seanime\ncannot write its config or library data. Adjust the anime and\ndownloads paths during install if your library lives elsewhere.\n"
+  },
+  "title": "Seanime",
+  "release_note": "Initial release. Rootless Seanime based on umag/seanime-docker example 02-rootless.",
+  "base_url": "https://restuindrawan.github.io/forge-zima",
+  "id": "app.seanime",
+  "version": "3.10.4",
+  "categories": [
+    "media"
+  ],
+  "min_memory": 0,
+  "min_image_size": {
+    "amd64": 94647558,
+    "arm64": 89952050
+  }
+}
