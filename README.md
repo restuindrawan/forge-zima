@@ -29,7 +29,7 @@ Seanime ships as four separate store apps, one per image variant from [`umag/sea
 
 | Variant | Pick it when | Notes |
 | --- | --- | --- |
-| Rootless | You want the safe default | Runs as UID 1000. Fix ownership with `PUID`/`PGID`. |
+| Rootless | You want the safe default | Runs as UID 1000. Folders must be writable by that user. |
 | Root | Media ownership is messy and you want it to just work | Runs as root. Files in downloads end up root-owned. |
 | Intel HwAccel | The box has an Intel GPU and you transcode | Set `VIDEO_GID`/`RENDER_GID` from `ls -ln /dev/dri`. |
 | NVIDIA CUDA | The box has an NVIDIA GPU with the Container Toolkit | Runs as UID 1001. Needs the `nvidia` Docker runtime. |
@@ -39,9 +39,9 @@ Upstream says the hardware variants could not be tested in CI, so verify GPU tra
 ## Seanime notes
 
 - The rootless app is based on the [rootless example](https://github.com/umag/seanime-docker/tree/main/examples/02-rootless) from `umag/seanime-docker`. The other variants follow the same pattern, but the config path differs: `/root/.config/Seanime` for Root, `/home/seanime/.config/Seanime` for the rest.
-- Runs as the non-root user `seanime` (UID `1000`, GID `1000` by default). A one-shot helper fixes ownership of config and downloads on each start. If the library scans empty, check `ls -ln /DATA/Media/Anime` and set `PUID`/`PGID` to the media owner's UID/GID at install.
+- The rootless and hwaccel apps run as the non-root user `seanime` (UID/GID `1000`), and CUDA runs as `1001`. The config, anime and downloads folders must be readable and writable by that user.
 - Default volumes: config at `/DATA/AppData/$AppID/config`, anime at `/DATA/Media/Anime`, downloads at `/DATA/Media/Downloads`. Change them during install if your library lives elsewhere.
-- WebUI port: `3211` on the host, forwarding to `43211` in the container.
+- WebUI ports: `3211` (Rootless), `3212` (Root), `3213` (Intel HwAccel) and `3214` (NVIDIA CUDA) on the host, forwarding to `43211` in the container.
 
 ### Publishing Seanime outside your LAN
 

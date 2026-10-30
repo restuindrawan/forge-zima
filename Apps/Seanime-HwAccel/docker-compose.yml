@@ -1,45 +1,8 @@
 name: seanime-hwaccel
 services:
-  # One-shot root helper: makes the writable folders (config and
-  # downloads) owned by the UID/GID Seanime runs as, and ensures the
-  # anime folder top level is traversable by it. It never recursively
-  # chowns your anime files.
-  seanime-hwaccel-permissions:
-    image: alpine:latest
-    container_name: seanime-hwaccel-permissions
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        UID_VAL="$${PUID:-1000}"
-        GID_VAL="$${PGID:-1000}"
-        mkdir -p /config /downloads
-        chown -R "$$UID_VAL:$$GID_VAL" /config /downloads
-        chown "$$UID_VAL:$$GID_VAL" /anime
-        chmod u+rwX /config /downloads /anime
-        echo "permissions: config/downloads owned by $$UID_VAL:$$GID_VAL"
-    environment:
-      PUID: "${PUID:-1000}"
-      PGID: "${PGID:-1000}"
-    volumes:
-      - type: bind
-        source: /DATA/AppData/$AppID/config
-        target: /config
-      - type: bind
-        source: /DATA/Media/Anime
-        target: /anime
-      - type: bind
-        source: /DATA/Media/Downloads
-        target: /downloads
-    restart: "no"
   seanime-hwaccel:
     image: umagistr/seanime:v3.10.4-hwaccel
     container_name: seanime-hwaccel
-    # Run as the owner of your media if its UID/GID is not 1000:1000.
-    # Check with `ls -ln /DATA/Media/Anime` and set PUID/PGID at install.
-    user: "${PUID:-1000}:${PGID:-1000}"
-    depends_on:
-      seanime-hwaccel-permissions:
-        condition: service_completed_successfully
     devices:
       - /dev/dri:/dev/dri
     # Numeric GIDs of the host groups that own /dev/dri (check with
@@ -50,8 +13,6 @@ services:
       - "${RENDER_GID:-105}"
     environment:
       SEANIME_SERVER_HOST: "0.0.0.0"
-      PUID: "${PUID:-1000}"
-      PGID: "${PGID:-1000}"
       VIDEO_GID: "${VIDEO_GID:-44}"
       RENDER_GID: "${RENDER_GID:-105}"
     # No default password is shipped: this repo is public. Set
@@ -81,12 +42,6 @@ services:
         - container: SEANIME_SERVER_PASSWORD
           description:
             en_US: Server password for remote access. Required if Seanime is reachable outside this machine. Leave empty only on a trusted LAN. Never commit a real password to this public repo.
-        - container: PUID
-          description:
-            en_US: User ID Seanime runs as. Check with `ls -ln /DATA/Media/Anime` and set this to the folder owner's UID if scanning shows an empty library. Defaults to 1000.
-        - container: PGID
-          description:
-            en_US: Group ID Seanime runs as. Check with `ls -ln /DATA/Media/Anime` and set this to the folder owner's GID if scanning shows an empty library. Defaults to 1000.
         - container: VIDEO_GID
           description:
             en_US: Numeric GID of the host group that owns /dev/dri/card0. Check with `ls -ln /dev/dri`. Defaults to 44.
@@ -139,7 +94,7 @@ x-casaos:
   version: "3.10.4"
   update_at: "2026-10-31"
   release_notes:
-    en_US: Add the Intel hardware acceleration Seanime variant, pinned to v3.10.4, on host port 3213 with /dev/dri passthrough, PUID/PGID, VIDEO_GID/RENDER_GID and optional SEANIME_SERVER_PASSWORD.
+    en_US: Add the Intel hardware acceleration Seanime variant, pinned to v3.10.4, on host port 3213 with /dev/dri passthrough, VIDEO_GID/RENDER_GID and optional SEANIME_SERVER_PASSWORD.
   website: https://seanime.app
   repo: https://github.com/5rahim/seanime
   support: https://github.com/5rahim/seanime/issues
@@ -157,12 +112,9 @@ x-casaos:
         group column for card0 (VIDEO_GID) and renderD128 (RENDER_GID).
         Wrong values mean no GPU access inside the container.
 
-        Rootless image: Seanime runs as UID:GID 1000:1000 by default. An
-        init step fixes ownership of the config and downloads folders on
-        every start, and never touches your anime files. If the scan
-        shows an empty library, your media is probably owned by another
-        user. Run `ls -ln /DATA/Media/Anime`, then set PUID and PGID to
-        the owner's UID and GID at install.
+        Rootless image: Seanime runs as UID:GID 1000:1000. The config,
+        anime and downloads folders must be readable and writable by that
+        user.
 
         This app has its own config folder and WebUI port (3213), so it
         does not share settings with the other Seanime variants. Do not run

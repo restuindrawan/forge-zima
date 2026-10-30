@@ -87,8 +87,8 @@ x-casaos:
   tips:
     before_install:
       en_US: |
-        Default image: Seanime runs as root inside the container, so no
-        PUID/PGID setup is needed and any media ownership works. Files
+        Default image: Seanime runs as root inside the container, so any
+        media ownership works. Files
         Seanime creates in the downloads folder will be owned by root. If
         you want a non-root process instead, install Seanime (Rootless).
 
