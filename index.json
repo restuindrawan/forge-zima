@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-10-30T14:01:07Z",
+  "updated_at": "2026-10-30T14:30:48Z",
   "app_count": 2,
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "apps": [
@@ -22,7 +22,7 @@
       "thumbnail": "",
       "compose_url": "/apps/ai.opencode/docker-compose.yml",
       "meta_url": "/apps/ai.opencode/meta.json",
-      "content_hash": "58aa5c5b",
+      "content_hash": "45dcf7c7",
       "version": "2.2.3"
     },
     {
