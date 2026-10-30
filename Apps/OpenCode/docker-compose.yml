@@ -1,7 +1,7 @@
 name: opencode
 services:
   opencode:
-    image: ghcr.io/anomalyco/opencode:2.2.3
+    image: ghcr.io/anomalyco/opencode:2.2.5
     container_name: opencode
     # OpenCode v2 has no `web` command and no --hostname/--port on the
     # root command. `serve --service` runs the v2 API and web server as
@@ -86,7 +86,7 @@ x-casaos:
   description:
     en_US: |
       OpenCode is an open source AI coding agent. This package runs
-      OpenCode 2.2.3 (opencode serve --service) on your ZimaOS box,
+      OpenCode 2.2.5 (opencode serve --service) on your ZimaOS box,
       with your projects mounted at /workspace.
 
       Locally, open it on port 4096. From outside your network, do not
@@ -101,10 +101,10 @@ x-casaos:
   architectures:
     - amd64
     - arm64
-  version: "2.2.3"
-  update_at: "2026-10-30"
+  version: "2.2.5"
+  update_at: "2026-10-31"
   release_notes:
-    en_US: Fix v2 startup. Replace the removed `web --hostname/--port` command with `serve --service` on 0.0.0.0:4096, enable OpenTunnel remote access, and save OPENCODE_SERVER_PASSWORD as the service password. Use `opencode pair --remote` in the container for one-time outside links.
+    en_US: Update OpenCode to 2.2.5. Startup is unchanged (`serve --service` on 0.0.0.0:4096 with OpenTunnel remote access). Use `opencode pair --remote` in the container for one-time outside links.
   website: https://opencode.ai
   repo: https://github.com/anomalyco/opencode
   support: https://github.com/anomalyco/opencode/issues

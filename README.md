@@ -18,7 +18,7 @@ https://restuindrawan.github.io/forge-zima/store.json
 | App | Category | Image | Description |
 | --- | --- | --- | --- |
 | Seanime | Media | `umagistr/seanime:latest-rootless` | Self-hosted anime and manga media server (rootless, UID 1000) |
-| OpenCode | Developer | `ghcr.io/anomalyco/opencode:2.2.3` | Open source AI coding agent (`serve --service`) on port 4096, with OpenTunnel pair links for outside access. Set `OPENCODE_SERVER_PASSWORD` when installing. |
+| OpenCode | Developer | `ghcr.io/anomalyco/opencode:2.2.5` | Open source AI coding agent (`serve --service`) on port 4096, with OpenTunnel pair links for outside access. Set `OPENCODE_SERVER_PASSWORD` when installing. |
 
 ## Seanime notes
 
@@ -87,15 +87,6 @@ docker compose -f Apps/<AppName>/docker-compose.yml config -q
 ```
 
 5. Merge to `main`. The release workflow rebuilds and redeploys the store.
-
-## Publish
-
-```bash
-git remote add origin https://github.com/restuindrawan/forge-zima.git
-git push -u origin main
-```
-
-Then enable GitHub Pages for the `gh-pages` branch in the repository settings if it is not enabled automatically.
 
 ## License
 
