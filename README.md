@@ -26,6 +26,20 @@ https://restuindrawan.github.io/forge-zima/store.json
 - Default volumes: config at `/DATA/AppData/$AppID/config`, anime at `/DATA/Media/Anime`, downloads at `/DATA/Media/Downloads`. Change them during install if your library lives elsewhere.
 - WebUI port: `3211` on the host, forwarding to `43211` in the container.
 
+### Publishing Seanime outside your LAN
+
+Seanime's [config docs](https://seanime.app/docs/config) require a server password when the server is reachable from outside the machine. No password is shipped in this public repo. Pick one option, then restart Seanime:
+
+1. During install, set `SEANIME_SERVER_PASSWORD` if the install form shows it. It is passed as `--password` and defaults to empty.
+2. Or after the first start, edit `config.toml` in the config folder (`/DATA/AppData/<app-id>/config/`) and set this under `[server]`, then restart:
+
+```toml
+[server]
+password = 'use-a-long-random-password'
+```
+
+A password is not encryption. Prefer a VPN such as Tailscale or an HTTPS reverse proxy. Avoid forwarding plain HTTP port `3211` on your router.
+
 ## Repository structure
 
 ```text

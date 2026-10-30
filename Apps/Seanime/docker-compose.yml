@@ -5,6 +5,10 @@ services:
     container_name: seanime
     environment:
       SEANIME_SERVER_HOST: "0.0.0.0"
+    # No default password is shipped: this repo is public. Set
+    # SEANIME_SERVER_PASSWORD when installing (see tips), or set
+    # server.password in config.toml after the first start.
+    command: ["/app/seanime", "--password", "${SEANIME_SERVER_PASSWORD:-}"]
     restart: unless-stopped
     ports:
       - target: 43211
@@ -25,6 +29,9 @@ services:
         - container: SEANIME_SERVER_HOST
           description:
             en_US: Bind address inside the container. Must be 0.0.0.0 so the published host port can reach Seanime, which defaults to 127.0.0.1.
+        - container: SEANIME_SERVER_PASSWORD
+          description:
+            en_US: Server password for remote access. Required if Seanime is reachable outside this machine. Leave empty only on a trusted LAN. Never commit a real password to this public repo.
       ports:
         - container: "43211"
           description:
@@ -69,7 +76,7 @@ x-casaos:
   version: "3.10.4"
   update_at: "2026-10-30"
   release_notes:
-    en_US: Fix WebUI access from the host. Set SEANIME_SERVER_HOST=0.0.0.0 so Seanime no longer binds only to 127.0.0.1 inside the container, and publish host port 3211 to container port 43211.
+    en_US: Add optional server password for remote access via SEANIME_SERVER_PASSWORD (--password, empty by default), with install tips for publishing outside the LAN. Host port 3211 forwards to container port 43211, bound with SEANIME_SERVER_HOST=0.0.0.0.
   website: https://seanime.app
   repo: https://github.com/5rahim/seanime
   support: https://github.com/5rahim/seanime/issues
@@ -81,3 +88,11 @@ x-casaos:
         and downloads folders are writable by UID 1000, otherwise Seanime
         cannot write its config or library data. Adjust the anime and
         downloads paths during install if your library lives elsewhere.
+
+        Publishing outside your LAN: set a server password first. Seanime's
+        docs require server.password when the server is reachable from
+        outside this machine. Set SEANIME_SERVER_PASSWORD during install,
+        or edit config.toml in the config folder after the first start and
+        set password under [server], then restart. A password is not
+        encryption: prefer a VPN such as Tailscale or an HTTPS reverse
+        proxy over forwarding plain HTTP port 3211 on your router.
