@@ -3,6 +3,8 @@ services:
   seanime:
     image: umagistr/seanime:latest-rootless
     container_name: seanime
+    environment:
+      SEANIME_SERVER_HOST: "0.0.0.0"
     restart: unless-stopped
     ports:
       - target: 43211
@@ -19,6 +21,10 @@ services:
         source: /DATA/Media/Downloads
         target: /downloads
     x-casaos:
+      envs:
+        - container: SEANIME_SERVER_HOST
+          description:
+            en_US: Bind address inside the container. Must be 0.0.0.0 so the published host port can reach Seanime, which defaults to 127.0.0.1.
       ports:
         - container: "43211"
           description:
@@ -63,7 +69,7 @@ x-casaos:
   version: "3.10.4"
   update_at: "2026-10-30"
   release_notes:
-    en_US: Initial release. Rootless Seanime based on umag/seanime-docker example 02-rootless.
+    en_US: Fix WebUI access from the host. Set SEANIME_SERVER_HOST=0.0.0.0 so Seanime no longer binds only to 127.0.0.1 inside the container, and publish host port 3211 to container port 43211.
   website: https://seanime.app
   repo: https://github.com/5rahim/seanime
   support: https://github.com/5rahim/seanime/issues
