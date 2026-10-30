@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-10-30T13:26:40Z",
+  "updated_at": "2026-10-30T13:35:38Z",
   "app_count": 1,
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "apps": [
@@ -22,7 +22,7 @@
       "thumbnail": "",
       "compose_url": "/apps/app.seanime/docker-compose.yml",
       "meta_url": "/apps/app.seanime/meta.json",
-      "content_hash": "655eb163",
+      "content_hash": "e3816abb",
       "version": "3.10.4"
     }
   ]

@@ -14,10 +14,10 @@
   "support": "https://github.com/5rahim/seanime/issues",
   "docs": "https://docs.seanime.app",
   "tips": {
-    "before_install": "Rootless image: Seanime runs as UID 1000. Make sure the config, anime,\nand downloads folders are writable by UID 1000, otherwise Seanime\ncannot write its config or library data. Adjust the anime and\ndownloads paths during install if your library lives elsewhere.\n"
+    "before_install": "Rootless image: Seanime runs as UID 1000. Make sure the config, anime,\nand downloads folders are writable by UID 1000, otherwise Seanime\ncannot write its config or library data. Adjust the anime and\ndownloads paths during install if your library lives elsewhere.\n\nPublishing outside your LAN: set a server password first. Seanime's\ndocs require server.password when the server is reachable from\noutside this machine. Set SEANIME_SERVER_PASSWORD during install,\nor edit config.toml in the config folder after the first start and\nset password under [server], then restart. A password is not\nencryption: prefer a VPN such as Tailscale or an HTTPS reverse\nproxy over forwarding plain HTTP port 3211 on your router.\n"
   },
   "title": "Seanime",
-  "release_note": "Fix WebUI access from the host. Set SEANIME_SERVER_HOST=0.0.0.0 so Seanime no longer binds only to 127.0.0.1 inside the container, and publish host port 3211 to container port 43211.",
+  "release_note": "Add optional server password for remote access via SEANIME_SERVER_PASSWORD (--password, empty by default), with install tips for publishing outside the LAN. Host port 3211 forwards to container port 43211, bound with SEANIME_SERVER_HOST=0.0.0.0.",
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "id": "app.seanime",
   "version": "3.10.4",

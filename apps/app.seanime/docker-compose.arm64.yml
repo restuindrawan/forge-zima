@@ -5,6 +5,10 @@ services:
     container_name: seanime
     environment:
       SEANIME_SERVER_HOST: "0.0.0.0"
+    # No default password is shipped: this repo is public. Set
+    # SEANIME_SERVER_PASSWORD when installing (see tips), or set
+    # server.password in config.toml after the first start.
+    command: ["/app/seanime", "--password", "${SEANIME_SERVER_PASSWORD:-}"]
     restart: unless-stopped
     ports:
       - target: 43211
