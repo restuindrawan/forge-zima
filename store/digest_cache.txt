@@ -1,2 +1,3 @@
+alpine:latest sha256:c26612752c78b18faacd63c7d50f4592c2e7b0f25e0e20e82bd74e465c57ab0d
 ghcr.io/anomalyco/opencode:2.2.3 sha256:bbc80a744b5e3c4daa319464c0a064ba4d2ed99c76d228e75cccaf57d201d889
 umagistr/seanime:latest-rootless sha256:b7275b11ee088e00ebe35d87c3caf4c740363b20307aa832c08fdd78758fb7e7

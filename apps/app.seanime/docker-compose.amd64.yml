@@ -1,10 +1,49 @@
 name: seanime
 services:
+  # One-shot root helper: makes the writable folders (config and
+  # downloads) owned by the UID/GID Seanime runs as, and ensures the
+  # anime folder top level is traversable by it. It never recursively
+  # chowns your anime files.
+  seanime-permissions:
+    image: alpine:latest@sha256:c26612752c78b18faacd63c7d50f4592c2e7b0f25e0e20e82bd74e465c57ab0d
+    container_name: seanime-permissions
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        UID_VAL="$${PUID:-1000}"
+        GID_VAL="$${PGID:-1000}"
+        mkdir -p /config /downloads
+        chown -R "$$UID_VAL:$$GID_VAL" /config /downloads
+        chown "$$UID_VAL:$$GID_VAL" /anime
+        chmod u+rwX /config /downloads /anime
+        echo "permissions: config/downloads owned by $$UID_VAL:$$GID_VAL"
+    environment:
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/config
+        target: /config
+      - type: bind
+        source: /DATA/Media/Anime
+        target: /anime
+      - type: bind
+        source: /DATA/Media/Downloads
+        target: /downloads
+    restart: "no"
   seanime:
     image: umagistr/seanime:latest-rootless@sha256:b7275b11ee088e00ebe35d87c3caf4c740363b20307aa832c08fdd78758fb7e7
     container_name: seanime
+    # Run as the owner of your media if its UID/GID is not 1000:1000.
+    # Check with `ls -ln /DATA/Media/Anime` and set PUID/PGID at install.
+    user: "${PUID:-1000}:${PGID:-1000}"
+    depends_on:
+      seanime-permissions:
+        condition: service_completed_successfully
     environment:
       SEANIME_SERVER_HOST: "0.0.0.0"
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
     # No default password is shipped: this repo is public. Set
     # SEANIME_SERVER_PASSWORD when installing (see tips), or set
     # server.password in config.toml after the first start.

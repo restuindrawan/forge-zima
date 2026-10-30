@@ -14,10 +14,10 @@
   "support": "https://github.com/5rahim/seanime/issues",
   "docs": "https://docs.seanime.app",
   "tips": {
-    "before_install": "Rootless image: Seanime runs as UID 1000. Make sure the config, anime,\nand downloads folders are writable by UID 1000, otherwise Seanime\ncannot write its config or library data. Adjust the anime and\ndownloads paths during install if your library lives elsewhere.\n\nPublishing outside your LAN: set a server password first. Seanime's\ndocs require server.password when the server is reachable from\noutside this machine. Set SEANIME_SERVER_PASSWORD during install,\nor edit config.toml in the config folder after the first start and\nset password under [server], then restart. A password is not\nencryption: prefer a VPN such as Tailscale or an HTTPS reverse\nproxy over forwarding plain HTTP port 3211 on your router.\n"
+    "before_install": "Rootless image: Seanime runs as UID:GID 1000:1000 by default. An\ninit step fixes ownership of the config and downloads folders on\nevery start, and never touches your anime files. If the scan\nshows an empty library, your media is probably owned by another\nuser. On the Zima box run `ls -ln /DATA/Media/Anime`, then set\nPUID to the folder owner's UID and PGID to its GID at install.\nAdjust the anime and downloads paths during install if your\nlibrary lives elsewhere.\n\nPublishing outside your LAN: set a server password first. Seanime's\ndocs require server.password when the server is reachable from\noutside this machine. Set SEANIME_SERVER_PASSWORD during install,\nor edit config.toml in the config folder after the first start and\nset password under [server], then restart. A password is not\nencryption: prefer a VPN such as Tailscale or an HTTPS reverse\nproxy over forwarding plain HTTP port 3211 on your router.\n"
   },
   "title": "Seanime",
-  "release_note": "Add optional server password for remote access via SEANIME_SERVER_PASSWORD (--password, empty by default), with install tips for publishing outside the LAN. Host port 3211 forwards to container port 43211, bound with SEANIME_SERVER_HOST=0.0.0.0.",
+  "release_note": "Fix rootless permissions. A one-shot helper makes config and downloads writable by Seanime's UID/GID, and PUID/PGID let you match the media owner's UID/GID when scans show an empty library. Host port 3211 forwards to container port 43211, with SEANIME_SERVER_HOST=0.0.0.0 and optional SEANIME_SERVER_PASSWORD.",
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "id": "app.seanime",
   "version": "3.10.4",
@@ -26,7 +26,7 @@
   ],
   "min_memory": 0,
   "min_image_size": {
-    "amd64": 94647558,
-    "arm64": 89952050
+    "amd64": 98501278,
+    "arm64": 94143165
   }
 }
