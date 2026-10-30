@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     ports:
       - target: 43211
-        published: "43211"
+        published: "3211"
         protocol: tcp
     volumes:
       - type: bind
@@ -38,7 +38,7 @@ x-casaos:
   id: app.seanime
   main: seanime
   index: /
-  port_map: "43211"
+  port_map: "3211"
   scheme: http
   icon: https://cdn.jsdelivr.net/gh/restuindrawan/forge-zima@main/Apps/Seanime/icon.png
   title:

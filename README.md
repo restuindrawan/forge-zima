@@ -24,7 +24,7 @@ https://restuindrawan.github.io/forge-zima/store.json
 - Based on the [rootless example](https://github.com/umag/seanime-docker/tree/main/examples/02-rootless) from `umag/seanime-docker`.
 - Runs as the non-root user `seanime` (UID 1000). Config, anime, and downloads folders must be writable by UID 1000.
 - Default volumes: config at `/DATA/AppData/$AppID/config`, anime at `/DATA/Media/Anime`, downloads at `/DATA/Media/Downloads`. Change them during install if your library lives elsewhere.
-- WebUI port: `43211`.
+- WebUI port: `3211` on the host, forwarding to `43211` in the container.
 
 ## Repository structure
 
