@@ -17,7 +17,7 @@
     "before_install": "Rootless image: Seanime runs as UID 1000. Make sure the config, anime,\nand downloads folders are writable by UID 1000, otherwise Seanime\ncannot write its config or library data. Adjust the anime and\ndownloads paths during install if your library lives elsewhere.\n"
   },
   "title": "Seanime",
-  "release_note": "Initial release. Rootless Seanime based on umag/seanime-docker example 02-rootless.",
+  "release_note": "Fix WebUI access from the host. Set SEANIME_SERVER_HOST=0.0.0.0 so Seanime no longer binds only to 127.0.0.1 inside the container, and publish host port 3211 to container port 43211.",
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "id": "app.seanime",
   "version": "3.10.4",

@@ -3,6 +3,8 @@ services:
   seanime:
     image: umagistr/seanime:latest-rootless@sha256:406a1ece81438e56def5bb41f02f66cc49778e399192e4f83a3ce5a6bc1bf6ed
     container_name: seanime
+    environment:
+      SEANIME_SERVER_HOST: "0.0.0.0"
     restart: unless-stopped
     ports:
       - target: 43211
