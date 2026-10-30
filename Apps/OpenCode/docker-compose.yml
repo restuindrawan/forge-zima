@@ -1,0 +1,103 @@
+name: opencode
+services:
+  opencode:
+    image: ghcr.io/anomalyco/opencode:2.2.3
+    container_name: opencode
+    command: ["web", "--hostname", "0.0.0.0", "--port", "4096"]
+    environment:
+      OPENCODE_SERVER_USERNAME: "${OPENCODE_SERVER_USERNAME:-opencode}"
+      # No default password is shipped: this repo is public. Set
+      # OPENCODE_SERVER_PASSWORD when installing. Empty means the
+      # web UI is unsecured, which is only OK on a trusted LAN.
+      OPENCODE_SERVER_PASSWORD: "${OPENCODE_SERVER_PASSWORD:-}"
+    working_dir: /workspace
+    restart: unless-stopped
+    ports:
+      - target: 4096
+        published: "4096"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/config
+        target: /root/.config/opencode
+      - type: bind
+        source: /DATA/AppData/$AppID/data
+        target: /root/.local/share/opencode
+      - type: bind
+        source: /DATA/Workspace
+        target: /workspace
+    x-casaos:
+      envs:
+        - container: OPENCODE_SERVER_PASSWORD
+          description:
+            en_US: Password for the OpenCode web UI (HTTP basic auth, username opencode). Strongly recommended. Required if OpenCode is reachable outside this machine. Never commit a real password to this public repo.
+        - container: OPENCODE_SERVER_USERNAME
+          description:
+            en_US: Username for the OpenCode web UI. Defaults to opencode.
+      ports:
+        - container: "4096"
+          description:
+            en_US: OpenCode WebUI port
+      volumes:
+        - container: /root/.config/opencode
+          description:
+            en_US: OpenCode config directory
+        - container: /root/.local/share/opencode
+          description:
+            en_US: OpenCode data directory. Contains auth tokens and session data, keep it private.
+        - container: /workspace
+          description:
+            en_US: Workspace directory. Projects you want OpenCode to work on.
+
+x-casaos:
+  id: ai.opencode
+  main: opencode
+  index: /
+  port_map: "4096"
+  scheme: http
+  icon: https://cdn.jsdelivr.net/gh/restuindrawan/forge-zima@main/Apps/OpenCode/icon.png
+  title:
+    en_US: OpenCode
+  tagline:
+    en_US: The open source AI coding agent, in your browser
+  description:
+    en_US: |
+      OpenCode is an open source AI coding agent. This package runs
+      OpenCode 2.2.3 as a web app (opencode web) so you can use it from
+      your browser on your ZimaOS box, with your projects mounted at
+      /workspace.
+
+      Set OPENCODE_SERVER_PASSWORD when installing. Without it the web
+      UI is unsecured, and anyone who can reach it can run commands in
+      the container with access to your workspace.
+  author: restuindrawan
+  developer: Anomaly
+  category: Developer
+  architectures:
+    - amd64
+    - arm64
+  version: "2.2.3"
+  update_at: "2026-10-30"
+  release_notes:
+    en_US: Initial release. OpenCode 2.2.3 web UI on port 4096, with optional OPENCODE_SERVER_PASSWORD basic auth (empty by default).
+  website: https://opencode.ai
+  repo: https://github.com/anomalyco/opencode
+  support: https://github.com/anomalyco/opencode/issues
+  docs: https://opencode.ai/docs/web
+  tips:
+    before_install:
+      en_US: |
+        Set OPENCODE_SERVER_PASSWORD during install. OpenCode can run
+        shell commands and edit files in /workspace, so an unsecured
+        web UI is remote code execution for anyone who can reach it.
+        Use it without a password only on a trusted LAN, and prefer a
+        VPN or HTTPS reverse proxy over publishing it to the internet.
+
+        Your provider API keys and sessions are stored in the data
+        folder (/root/.local/share/opencode, including auth.json).
+        Keep that folder private. Adjust the /workspace path during
+        install to point at the projects you want OpenCode to work on.
+
+        Note: the upstream image is minimal (OpenCode and ripgrep, no
+        git or language toolchains), so tasks that need those tools
+        inside the container will be limited.

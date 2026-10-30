@@ -18,6 +18,7 @@ https://restuindrawan.github.io/forge-zima/store.json
 | App | Category | Image | Description |
 | --- | --- | --- | --- |
 | Seanime | Media | `umagistr/seanime:latest-rootless` | Self-hosted anime and manga media server (rootless, UID 1000) |
+| OpenCode | Developer | `ghcr.io/anomalyco/opencode:2.2.3` | Open source AI coding agent as a web app on port 4096. Set `OPENCODE_SERVER_PASSWORD` when installing. |
 
 ## Seanime notes
 
@@ -45,8 +46,11 @@ A password is not encryption. Prefer a VPN such as Tailscale or an HTTPS reverse
 ```text
 forge-zima/
 ├── Apps/
-│   └── Seanime/
-│       ├── docker-compose.yml   # Compose + top-level x-casaos metadata
+│   ├── Seanime/
+│   │   ├── docker-compose.yml   # Compose + top-level x-casaos metadata
+│   │   └── icon.png
+│   └── OpenCode/
+│       ├── docker-compose.yml
 │       └── icon.png
 ├── store-config.json            # Store identity (v2)
 ├── supported-languages.json
