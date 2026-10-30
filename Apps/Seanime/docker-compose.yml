@@ -1,0 +1,77 @@
+name: seanime
+services:
+  seanime:
+    image: umagistr/seanime:latest-rootless
+    container_name: seanime
+    restart: unless-stopped
+    ports:
+      - target: 43211
+        published: "43211"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/config
+        target: /home/seanime/.config/Seanime
+      - type: bind
+        source: /DATA/Media/Anime
+        target: /anime
+      - type: bind
+        source: /DATA/Media/Downloads
+        target: /downloads
+    x-casaos:
+      ports:
+        - container: "43211"
+          description:
+            en_US: Seanime WebUI port
+      volumes:
+        - container: /home/seanime/.config/Seanime
+          description:
+            en_US: Seanime config directory
+        - container: /anime
+          description:
+            en_US: Anime library directory
+        - container: /downloads
+          description:
+            en_US: Downloads directory
+
+x-casaos:
+  id: app.seanime
+  main: seanime
+  index: /
+  port_map: "43211"
+  scheme: http
+  icon: https://cdn.jsdelivr.net/gh/restuindrawan/forge-zima@main/Apps/Seanime/icon.png
+  title:
+    en_US: Seanime
+  tagline:
+    en_US: Self-hosted anime and manga media server (rootless)
+  description:
+    en_US: |
+      Seanime is an open-source media server with a web interface and desktop
+      app for anime and manga. It integrates with AniList, manages your local
+      library, streams and downloads episodes, and plays them with your media
+      player of choice.
+
+      This package uses the rootless image (umagistr/seanime:latest-rootless),
+      which runs as the non-root user seanime (UID 1000) for improved security.
+  author: restuindrawan
+  developer: 5rahim
+  category: Media
+  architectures:
+    - amd64
+    - arm64
+  version: "3.10.4"
+  update_at: "2026-10-30"
+  release_notes:
+    en_US: Initial release. Rootless Seanime based on umag/seanime-docker example 02-rootless.
+  website: https://seanime.app
+  repo: https://github.com/5rahim/seanime
+  support: https://github.com/5rahim/seanime/issues
+  docs: https://docs.seanime.app
+  tips:
+    before_install:
+      en_US: |
+        Rootless image: Seanime runs as UID 1000. Make sure the config, anime,
+        and downloads folders are writable by UID 1000, otherwise Seanime
+        cannot write its config or library data. Adjust the anime and
+        downloads paths during install if your library lives elsewhere.
