@@ -57,16 +57,12 @@ x-casaos:
   title:
     en_US: Seanime Rootless
   tagline:
-    en_US: Self-hosted anime and manga media server (rootless)
+    en_US: The media server for anime and manga
   description:
     en_US: |
-      Seanime is an open-source media server with a web interface and desktop
-      app for anime and manga. It integrates with AniList, manages your local
-      library, streams and downloads episodes, and plays them with your media
-      player of choice.
+      Seanime is a self-hosted media server packed with features to seamlessly stream, track, and manage your anime and manga.
 
-      This package uses the rootless image (umagistr/seanime:v3.10.4-rootless),
-      which runs as the non-root user seanime (UID 1000) for improved security.
+      Seanime does not provide, host, or distribute any media content. You are responsible for obtaining media content through legal means. The software is a tool for organizing and consuming content you already own or have legal access to. By using Seanime, you agree to comply with your local laws and regulations.
   author: restuindrawan
   developer: 5rahim
   category: Media

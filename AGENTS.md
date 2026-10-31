@@ -38,6 +38,7 @@ Four store apps from `umagistr/seanime`. Default is the root image and carries *
 - Use `$$` for shell variables inside compose `command:` blocks, and `/DATA/AppData/$AppID/...` for bind sources.
 - The repo is public: never ship default passwords. Use `${VAR:-}` and document the variable.
 - Set `update_at` manually to the current date when changing an app.
+- `x-casaos.tagline` and `description` are verbatim upstream wording (project site or README), identical across the four Seanime variants. Put packaging details (image variant, ports, pairing steps) in `tips.before_install`, not in the description.
 
 ## Docs
 
