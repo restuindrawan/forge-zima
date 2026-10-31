@@ -10,3 +10,4 @@ opencode pair --remote
 
 - Set `OPENCODE_SERVER_PASSWORD` at install; it is saved as the service password. If left empty, a random password is generated in the config folder. Read it with `opencode service get password`.
 - On first start the tunnel setup can take a minute. If it fails, the app still serves on the LAN and the container log tells you to retry the pair command.
+- The remote address is `https://<route>.<tunnel-hostname>`. The route is kept in the config folder, and the tunnel hostname and its certificate key are kept in the OpenTunnel folder (`/root/.local/share/opentunnel`). Both folders are mounted from `/DATA/AppData/<app-id>/`, so the address and your paired devices survive updates. If you remove the OpenTunnel volume, the next start creates a new tunnel and you have to pair again.

@@ -43,6 +43,12 @@ services:
       - type: bind
         source: /DATA/AppData/$AppID/state
         target: /root/.local/state/opencode
+      # OpenTunnel device identity (tunnel hostname and certificate key).
+      # Without this, every container recreation, such as an update, makes
+      # a new tunnel, which changes the remote address and breaks pairing.
+      - type: bind
+        source: /DATA/AppData/$AppID/opentunnel
+        target: /root/.local/share/opentunnel
       - type: bind
         source: /DATA/Workspace
         target: /workspace
@@ -68,6 +74,9 @@ services:
         - container: /root/.local/state/opencode
           description:
             en_US: OpenCode state directory (service registration and logs)
+        - container: /root/.local/share/opentunnel
+          description:
+            en_US: OpenTunnel identity (tunnel hostname and certificate key). Keeps your remote address and pairing across updates, keep it private.
         - container: /workspace
           description:
             en_US: Workspace directory. Projects you want OpenCode to work on.
@@ -104,7 +113,7 @@ x-casaos:
   version: "2.2.5"
   update_at: "2026-10-31"
   release_notes:
-    en_US: Update OpenCode to 2.2.5. Startup is unchanged (`serve --service` on 0.0.0.0:4096 with OpenTunnel remote access). Use `opencode pair --remote` in the container for one-time outside links.
+    en_US: Keep the OpenTunnel identity across updates by persisting /root/.local/share/opentunnel, so the remote address no longer changes and paired devices stay paired. The first update to this version still creates one new address, so pair once more after it.
   website: https://opencode.ai
   repo: https://github.com/anomalyco/opencode
   support: https://github.com/anomalyco/opencode/issues
