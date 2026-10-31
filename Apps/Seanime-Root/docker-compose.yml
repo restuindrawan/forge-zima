@@ -55,7 +55,7 @@ x-casaos:
   scheme: http
   icon: https://cdn.jsdelivr.net/gh/restuindrawan/forge-zima@main/Apps/Seanime-Root/icon.png
   title:
-    en_US: Seanime (Root)
+    en_US: Seanime
   tagline:
     en_US: Self-hosted anime and manga media server (default root image)
   description:
@@ -90,7 +90,7 @@ x-casaos:
         Default image: Seanime runs as root inside the container, so any
         media ownership works. Files
         Seanime creates in the downloads folder will be owned by root. If
-        you want a non-root process instead, install Seanime (Rootless).
+        you want a non-root process instead, install Seanime Rootless.
 
         This app has its own config folder and WebUI port (3212), so it
         does not share settings with the other Seanime variants. Do not run

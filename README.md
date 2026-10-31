@@ -17,10 +17,10 @@ https://restuindrawan.github.io/forge-zima/store.json
 
 | App | Category | Image | Description |
 | --- | --- | --- | --- |
-| Seanime (Rootless) | Media | `umagistr/seanime:v3.10.4-rootless` | Self-hosted anime and manga media server (non-root, UID 1000), port `3211` |
-| Seanime (Root) | Media | `umagistr/seanime:v3.10.4` | Default image, runs as root, no UID/GID matching needed, port `3212` |
-| Seanime (Intel HwAccel) | Media | `umagistr/seanime:v3.10.4-hwaccel` | Non-root, Jellyfin-FFmpeg with Intel QSV/VAAPI via `/dev/dri`, amd64 only, port `3213` |
-| Seanime (NVIDIA CUDA) | Media | `umagistr/seanime:v3.10.4-cuda` | Non-root (UID 1001), NVENC/NVDEC via the `nvidia` runtime, amd64 only, port `3214` |
+| Seanime | Media | `umagistr/seanime:v3.10.4` | Default image, runs as root, no UID/GID matching needed, port `3212` |
+| Seanime Rootless | Media | `umagistr/seanime:v3.10.4-rootless` | Self-hosted anime and manga media server (non-root, UID 1000), port `3211` |
+| Seanime HwAccel | Media | `umagistr/seanime:v3.10.4-hwaccel` | Non-root, Jellyfin-FFmpeg with Intel QSV/VAAPI via `/dev/dri`, amd64 only, port `3213` |
+| Seanime CUDA | Media | `umagistr/seanime:v3.10.4-cuda` | Non-root (UID 1001), NVENC/NVDEC via the `nvidia` runtime, amd64 only, port `3214` |
 | OpenCode | Developer | `ghcr.io/anomalyco/opencode:2.2.5` | Open source AI coding agent (`serve --service`) on port 4096, with OpenTunnel pair links for outside access. Set `OPENCODE_SERVER_PASSWORD` when installing. |
 
 ## Seanime variants
@@ -29,19 +29,19 @@ Seanime ships as four separate store apps, one per image variant from [`umag/sea
 
 | Variant | Pick it when | Notes |
 | --- | --- | --- |
-| Rootless | You want the safe default | Runs as UID 1000. Folders must be writable by that user. |
-| Root | Media ownership is messy and you want it to just work | Runs as root. Files in downloads end up root-owned. |
-| Intel HwAccel | The box has an Intel GPU and you transcode | Set `VIDEO_GID`/`RENDER_GID` from `ls -ln /dev/dri`. |
-| NVIDIA CUDA | The box has an NVIDIA GPU with the Container Toolkit | Runs as UID 1001. Needs the `nvidia` Docker runtime. |
+| Default | Media ownership is messy and you want it to just work | Runs as root. Files in downloads end up root-owned. |
+| Rootless | You want the safe option | Runs as UID 1000. Folders must be writable by that user. |
+| HwAccel | The box has an Intel GPU and you transcode | Set `VIDEO_GID`/`RENDER_GID` from `ls -ln /dev/dri`. |
+| CUDA | The box has an NVIDIA GPU with the Container Toolkit | Runs as UID 1001. Needs the `nvidia` Docker runtime. |
 
 Upstream says the hardware variants could not be tested in CI, so verify GPU transcoding on your own hardware. All four apps are pinned to `v3.10.4`, so bump them by hand.
 
 ## Seanime notes
 
-- The rootless app is based on the [rootless example](https://github.com/umag/seanime-docker/tree/main/examples/02-rootless) from `umag/seanime-docker`. The other variants follow the same pattern, but the config path differs: `/root/.config/Seanime` for Root, `/home/seanime/.config/Seanime` for the rest.
+- The rootless app is based on the [rootless example](https://github.com/umag/seanime-docker/tree/main/examples/02-rootless) from `umag/seanime-docker`. The other variants follow the same pattern, but the config path differs: `/root/.config/Seanime` for Default, `/home/seanime/.config/Seanime` for the rest.
 - The rootless and hwaccel apps run as the non-root user `seanime` (UID/GID `1000`), and CUDA runs as `1001`. The config, anime and downloads folders must be readable and writable by that user.
 - Default volumes: config at `/DATA/AppData/$AppID/config`, anime at `/DATA/Media/Anime`, downloads at `/DATA/Media/Downloads`. Change them during install if your library lives elsewhere.
-- WebUI ports: `3211` (Rootless), `3212` (Root), `3213` (Intel HwAccel) and `3214` (NVIDIA CUDA) on the host, forwarding to `43211` in the container.
+- WebUI ports: `3211` (Rootless), `3212` (Default), `3213` (HwAccel) and `3214` (CUDA) on the host, forwarding to `43211` in the container.
 
 ### Publishing Seanime outside your LAN
 

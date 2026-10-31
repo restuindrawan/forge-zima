@@ -67,7 +67,7 @@ x-casaos:
   scheme: http
   icon: https://cdn.jsdelivr.net/gh/restuindrawan/forge-zima@main/Apps/Seanime-CUDA/icon.png
   title:
-    en_US: Seanime (NVIDIA CUDA)
+    en_US: Seanime CUDA
   tagline:
     en_US: Self-hosted anime and manga media server with NVIDIA hardware transcoding
   description:

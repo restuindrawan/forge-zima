@@ -55,7 +55,7 @@ x-casaos:
   scheme: http
   icon: https://cdn.jsdelivr.net/gh/restuindrawan/forge-zima@main/Apps/Seanime/icon.png
   title:
-    en_US: Seanime (Rootless)
+    en_US: Seanime Rootless
   tagline:
     en_US: Self-hosted anime and manga media server (rootless)
   description:
@@ -76,7 +76,7 @@ x-casaos:
   version: "3.10.4"
   update_at: "2026-10-31"
   release_notes:
-    en_US: Pin the image to v3.10.4-rootless instead of latest-rootless, remove the permissions helper and PUID/PGID options, and rename the app to Seanime (Rootless) now that Root, Intel HwAccel and NVIDIA CUDA variants exist.
+    en_US: Pin the image to v3.10.4-rootless instead of latest-rootless, remove the permissions helper and PUID/PGID options, and rename the app to Seanime Rootless now that Default, HwAccel and CUDA variants exist.
   website: https://seanime.app
   repo: https://github.com/5rahim/seanime
   support: https://github.com/5rahim/seanime/issues

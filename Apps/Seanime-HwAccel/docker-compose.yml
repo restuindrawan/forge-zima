@@ -71,7 +71,7 @@ x-casaos:
   scheme: http
   icon: https://cdn.jsdelivr.net/gh/restuindrawan/forge-zima@main/Apps/Seanime-HwAccel/icon.png
   title:
-    en_US: Seanime (Intel HwAccel)
+    en_US: Seanime HwAccel
   tagline:
     en_US: Self-hosted anime and manga media server with Intel hardware transcoding
   description:
