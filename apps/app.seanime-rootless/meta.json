@@ -1,0 +1,32 @@
+{
+  "tagline": "Self-hosted anime and manga media server (rootless)",
+  "description": "Seanime is an open-source media server with a web interface and desktop\napp for anime and manga. It integrates with AniList, manages your local\nlibrary, streams and downloads episodes, and plays them with your media\nplayer of choice.\n\nThis package uses the rootless image (umagistr/seanime:v3.10.4-rootless),\nwhich runs as the non-root user seanime (UID 1000) for improved security.\n",
+  "author": "restuindrawan",
+  "developer": "5rahim",
+  "category": "Media",
+  "architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "update_at": "2026-10-31",
+  "website": "https://seanime.app",
+  "repo": "https://github.com/5rahim/seanime",
+  "support": "https://github.com/5rahim/seanime/issues",
+  "docs": "https://docs.seanime.app",
+  "tips": {
+    "before_install": "Rootless image: Seanime runs as UID:GID 1000:1000. The config,\nanime and downloads folders must be readable and writable by that\nuser. Adjust the anime and downloads paths during install if your\nlibrary lives elsewhere.\n\nPublishing outside your LAN: set a server password first. Seanime's\ndocs require server.password when the server is reachable from\noutside this machine. Set SEANIME_SERVER_PASSWORD during install,\nor edit config.toml in the config folder after the first start and\nset password under [server], then restart. A password is not\nencryption: prefer a VPN such as Tailscale or an HTTPS reverse\nproxy over forwarding plain HTTP port 3211 on your router.\n"
+  },
+  "title": "Seanime Rootless",
+  "release_note": "Rootless variant, pinned to v3.10.4-rootless, now has its own app ID (app.seanime-rootless) and container name (seanime-rootless), because the plain Seanime app is now the default (root) image. Existing installs of the old app.seanime must be reinstalled. Also removes the permissions helper and PUID/PGID options.",
+  "base_url": "https://restuindrawan.github.io/forge-zima",
+  "id": "app.seanime-rootless",
+  "version": "3.10.4",
+  "categories": [
+    "media"
+  ],
+  "min_memory": 0,
+  "min_image_size": {
+    "amd64": 94647558,
+    "arm64": 89952050
+  }
+}

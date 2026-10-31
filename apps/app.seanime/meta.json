@@ -1,6 +1,6 @@
 {
-  "tagline": "Self-hosted anime and manga media server (rootless)",
-  "description": "Seanime is an open-source media server with a web interface and desktop\napp for anime and manga. It integrates with AniList, manages your local\nlibrary, streams and downloads episodes, and plays them with your media\nplayer of choice.\n\nThis package uses the rootless image (umagistr/seanime:v3.10.4-rootless),\nwhich runs as the non-root user seanime (UID 1000) for improved security.\n",
+  "tagline": "Self-hosted anime and manga media server (default root image)",
+  "description": "Seanime is an open-source media server with a web interface and desktop\napp for anime and manga. It integrates with AniList, manages your local\nlibrary, streams and downloads episodes, and plays them with your media\nplayer of choice.\n\nThis package uses the default image (umagistr/seanime), which runs as\nroot. There is no UID/GID to match, so it can read and write any media\nfolder, at the cost of running with more privileges than the rootless\nvariant. It uses host port 3212 so it can run next to the other\nSeanime variants.\n",
   "author": "restuindrawan",
   "developer": "5rahim",
   "category": "Media",
@@ -14,10 +14,10 @@
   "support": "https://github.com/5rahim/seanime/issues",
   "docs": "https://docs.seanime.app",
   "tips": {
-    "before_install": "Rootless image: Seanime runs as UID:GID 1000:1000. The config,\nanime and downloads folders must be readable and writable by that\nuser. Adjust the anime and downloads paths during install if your\nlibrary lives elsewhere.\n\nPublishing outside your LAN: set a server password first. Seanime's\ndocs require server.password when the server is reachable from\noutside this machine. Set SEANIME_SERVER_PASSWORD during install,\nor edit config.toml in the config folder after the first start and\nset password under [server], then restart. A password is not\nencryption: prefer a VPN such as Tailscale or an HTTPS reverse\nproxy over forwarding plain HTTP port 3211 on your router.\n"
+    "before_install": "Default image: Seanime runs as root inside the container, so any\nmedia ownership works. Files\nSeanime creates in the downloads folder will be owned by root. If\nyou want a non-root process instead, install Seanime Rootless.\n\nThis app has its own config folder and WebUI port (3212), so it\ndoes not share settings with the other Seanime variants. Do not run\ntwo variants against the same downloads folder at the same time.\n\nPublishing outside your LAN: set a server password first. Seanime's\ndocs require server.password when the server is reachable from\noutside this machine. Set SEANIME_SERVER_PASSWORD during install,\nor edit config.toml in the config folder after the first start and\nset password under [server], then restart. A password is not\nencryption: prefer a VPN such as Tailscale or an HTTPS reverse\nproxy over forwarding plain HTTP port 3212 on your router.\n"
   },
-  "title": "Seanime Rootless",
-  "release_note": "Pin the image to v3.10.4-rootless instead of latest-rootless, remove the permissions helper and PUID/PGID options, and rename the app to Seanime Rootless now that Default, HwAccel and CUDA variants exist.",
+  "title": "Seanime",
+  "release_note": "This app is now the default (root) Seanime image, pinned to v3.10.4, on host port 3212 with optional SEANIME_SERVER_PASSWORD. The rootless variant moved to its own app, Seanime Rootless.",
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "id": "app.seanime",
   "version": "3.10.4",
@@ -26,7 +26,7 @@
   ],
   "min_memory": 0,
   "min_image_size": {
-    "amd64": 94647558,
-    "arm64": 89952050
+    "amd64": 94645481,
+    "arm64": 89949758
   }
 }

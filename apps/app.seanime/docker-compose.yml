@@ -1,7 +1,7 @@
 name: seanime
 services:
   seanime:
-    image: umagistr/seanime:v3.10.4-rootless
+    image: umagistr/seanime:v3.10.4
     container_name: seanime
     environment:
       SEANIME_SERVER_HOST: "0.0.0.0"
@@ -12,12 +12,12 @@ services:
     restart: unless-stopped
     ports:
       - target: 43211
-        published: "3211"
+        published: "3212"
         protocol: tcp
     volumes:
       - type: bind
         source: /DATA/AppData/$AppID/config
-        target: /home/seanime/.config/Seanime
+        target: /root/.config/Seanime
       - type: bind
         source: /DATA/Media/Anime
         target: /anime
@@ -28,9 +28,9 @@ x-casaos:
   id: app.seanime
   main: seanime
   index: /
-  port_map: "3211"
+  port_map: "3212"
   scheme: http
   icon: https://restuindrawan.github.io/forge-zima/apps/app.seanime/assets/icon.png
   title:
-    en_US: Seanime Rootless
+    en_US: Seanime
   version: "3.10.4"
