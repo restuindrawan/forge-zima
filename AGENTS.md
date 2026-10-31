@@ -29,6 +29,13 @@ Four store apps from `umagistr/seanime`. Default is the root image and carries *
 - The OpenTunnel identity at `/root/.local/share/opentunnel` must stay a persisted volume. Without it, every container recreation changes the remote address and forces re-pairing.
 - To bump: image tag, the "OpenCode x.y.z" text in the description, `version`, `update_at`, `release_notes`, and the README table.
 
+## Immich and qBittorrent
+
+- Ports in use: Seanime 3211-3214, OpenCode 4096, Immich 2283, qBittorrent 8181 and 6881 (TCP and UDP). Keep new apps off these.
+- Immich is a four-service compose copied from Immich's own `docker-compose.yml` for the pinned release (`gh release` asset). On a bump, re-download it and copy the new Valkey and Postgres image digests, since they change between releases. Services must keep upstream names (`redis`, `database`, `immich-machine-learning`) because the server resolves them by name.
+- `DB_PASSWORD` defaults to `postgres` (Immich's own example value) because the database has no published port. This is the only default password allowed in the repo.
+- qBittorrent mounts `/anime` and `/downloads` exactly like the Seanime apps. Seanime sends its own paths to qBittorrent as the save path, so the two must stay identical. Its `WEBUI_PORT` must equal the published port.
+
 ## Compose and metadata conventions
 
 - Each app needs a top-level `name:` and `x-casaos:` with `id`, `main`, `index`, `port_map` (quoted string), `icon`, `title.en_US`, `category`, `version`.

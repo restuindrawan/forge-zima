@@ -1,0 +1,125 @@
+name: qbittorrent
+services:
+  qbittorrent:
+    image: ghcr.io/linuxserver/qbittorrent:5.3.0
+    container_name: qbittorrent
+    environment:
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+      TZ: "${TZ:-Etc/UTC}"
+      # Both sides of the WebUI port mapping must match this value
+      # (linuxserver note: CSRF checks break on a remapped port).
+      WEBUI_PORT: "8181"
+      TORRENTING_PORT: "6881"
+    restart: unless-stopped
+    ports:
+      - target: 8181
+        published: "8181"
+        protocol: tcp
+      - target: 6881
+        published: "6881"
+        protocol: tcp
+      - target: 6881
+        published: "6881"
+        protocol: udp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/config
+        target: /config
+      # Same paths as the Seanime apps. Seanime sends its own destination path
+      # to qBittorrent as the save path, so both must see identical folders.
+      - type: bind
+        source: /DATA/Media/Anime
+        target: /anime
+      - type: bind
+        source: /DATA/Media/Downloads
+        target: /downloads
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_US: User ID qBittorrent runs as. Downloaded files are owned by this user. Defaults to 1000.
+        - container: PGID
+          description:
+            en_US: Group ID qBittorrent runs as. Defaults to 1000.
+        - container: TZ
+          description:
+            en_US: Timezone, for example Asia/Jakarta. Defaults to Etc/UTC.
+        - container: WEBUI_PORT
+          description:
+            en_US: WebUI port inside the container. If you change it, change the published WebUI port to the same number.
+        - container: TORRENTING_PORT
+          description:
+            en_US: Port for incoming BitTorrent connections (TCP and UDP). Forward it on your router for better connectivity.
+      ports:
+        - container: "8181"
+          description:
+            en_US: qBittorrent WebUI port
+        - container: "6881"
+          description:
+            en_US: BitTorrent connection port (TCP and UDP)
+      volumes:
+        - container: /config
+          description:
+            en_US: qBittorrent config directory
+        - container: /anime
+          description:
+            en_US: Anime library. Same path as in Seanime.
+        - container: /downloads
+          description:
+            en_US: Downloads directory. Same path as in Seanime.
+
+x-casaos:
+  id: app.qbittorrent
+  main: qbittorrent
+  index: /
+  port_map: "8181"
+  scheme: http
+  icon: https://cdn.jsdelivr.net/gh/restuindrawan/forge-zima@main/Apps/qBittorrent/icon.png
+  title:
+    en_US: qBittorrent
+  tagline:
+    en_US: A BitTorrent client in Qt
+  description:
+    en_US: |
+      qBittorrent is a BitTorrent client programmed in C++ / Qt that uses libtorrent (sometimes called libtorrent-rasterbar) by Arvid Norberg.
+
+      It aims to be a good alternative to all other BitTorrent clients out there. qBittorrent is fast, stable and provides Unicode support as well as many features.
+  author: restuindrawan
+  developer: qBittorrent
+  category: Media
+  architectures:
+    - amd64
+    - arm64
+  version: "5.3.0"
+  update_at: "2026-10-31"
+  release_notes:
+    en_US: Add qBittorrent 5.3.0 (linuxserver image) with the WebUI on port 8181, BitTorrent port 6881, and the /anime and /downloads paths matching Seanime.
+  website: https://www.qbittorrent.org
+  repo: https://github.com/qbittorrent/qBittorrent
+  support: https://github.com/qbittorrent/qBittorrent/issues
+  docs: https://github.com/qbittorrent/qBittorrent/wiki
+  tips:
+    before_install:
+      en_US: |
+        Login: the WebUI is at http://<zima-ip>:8181. The user is `admin`
+        and a temporary password is printed in the container log on every
+        start until you set your own. Open Tools > Options > WebUI and
+        change the username and password right away. If you do not, a new
+        temporary password is generated each time the container starts.
+
+        Using it with Seanime: Seanime tells qBittorrent where to save
+        files using Seanime's own paths, so qBittorrent must see the same
+        folders. This app mounts /DATA/Media/Anime as /anime and
+        /DATA/Media/Downloads as /downloads, the same as the Seanime
+        apps. If you change these paths here, change them in Seanime too.
+        In Seanime's torrent client settings, use the host address of this
+        box and port 8181 (not the container name).
+
+        Files are written as the user and group set by PUID and PGID
+        (default 1000). Make sure that user can write to the folders.
+
+        Ports: 8181 (WebUI) and 6881 (TCP and UDP) must be free on the
+        box. Forward 6881 on your router for better connectivity, but
+        avoid forwarding 8181: that would expose the WebUI to the
+        internet.

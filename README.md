@@ -22,6 +22,8 @@ https://restuindrawan.github.io/forge-zima/store.json
 | Seanime HwAccel | Media | `umagistr/seanime:v3.10.4-hwaccel` | [Seanime](docs/seanime.md) |
 | Seanime CUDA | Media | `umagistr/seanime:v3.10.4-cuda` | [Seanime](docs/seanime.md) |
 | OpenCode | Developer | `ghcr.io/anomalyco/opencode:2.2.5` | [OpenCode](docs/opencode.md) |
+| Immich | Media | `ghcr.io/immich-app/immich-server:v3.3.5` | [Immich](docs/immich.md) |
+| qBittorrent | Media | `ghcr.io/linuxserver/qbittorrent:5.3.0` | [qBittorrent](docs/qbittorrent.md) |
 
 ## Repository structure
 
@@ -34,9 +36,9 @@ forge-zima/
 │   ├── Seanime-Rootless/        # Same layout as above
 │   ├── Seanime-HwAccel/         # Same layout as above
 │   ├── Seanime-CUDA/            # Same layout as above
-│   └── OpenCode/
-│       ├── docker-compose.yml
-│       └── icon.png
+│   ├── OpenCode/                # Same layout as above
+│   ├── Immich/                  # Same layout as above
+│   └── qBittorrent/             # Same layout as above
 ├── docs/                        # Per-app notes
 ├── store-config.json            # Store identity (v2)
 ├── supported-languages.json

@@ -1,0 +1,145 @@
+name: immich
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:v3.3.5
+    environment:
+      # The database is only reachable on this app's private network (no
+      # published port), so the shipped default is the one from Immich's own
+      # example.env. It must match the database service. Do not change it
+      # after the first start: Postgres keeps the password in its data folder.
+      DB_PASSWORD: "${DB_PASSWORD:-postgres}"
+      DB_USERNAME: postgres
+      DB_DATABASE_NAME: immich
+    volumes:
+      - type: bind
+        source: /DATA/Gallery/immich
+        target: /data
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+    ports:
+      - target: 2283
+        published: "2283"
+        protocol: tcp
+    depends_on:
+      - redis
+      - database
+    restart: unless-stopped
+    healthcheck:
+      disable: false
+    networks:
+      - immich
+    x-casaos:
+      ports:
+        - container: "2283"
+          description:
+            en_US: Immich WebUI and API port. Also the server URL for the mobile apps.
+      volumes:
+        - container: /data
+          description:
+            en_US: Where uploaded photos and videos are stored. Make sure it has plenty of space.
+        - container: /etc/localtime
+          description:
+            en_US: Host timezone, read only.
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:v3.3.5
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/model-cache
+        target: /cache
+    restart: unless-stopped
+    healthcheck:
+      disable: false
+    networks:
+      - immich
+
+  redis:
+    container_name: immich_redis
+    image: docker.io/valkey/valkey:9@sha256:c123e3715db63d06d4ad6964884037aa0d5d4d703939b9929954112889708e1d
+    healthcheck:
+      test: redis-cli ping | grep -q PONG || exit 1
+    restart: unless-stopped
+    networks:
+      - immich
+
+  database:
+    container_name: immich_postgres
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+    environment:
+      POSTGRES_PASSWORD: "${DB_PASSWORD:-postgres}"
+      POSTGRES_USER: postgres
+      POSTGRES_DB: immich
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/pgdata
+        target: /var/lib/postgresql/data
+    shm_size: 128mb
+    restart: unless-stopped
+    healthcheck:
+      disable: false
+    networks:
+      - immich
+
+networks:
+  immich:
+    driver: bridge
+
+x-casaos:
+  id: app.immich
+  main: immich-server
+  index: /
+  port_map: "2283"
+  scheme: http
+  icon: https://cdn.jsdelivr.net/gh/restuindrawan/forge-zima@main/Apps/Immich/icon.png
+  title:
+    en_US: Immich
+  tagline:
+    en_US: High performance self-hosted photo and video management solution
+  description:
+    en_US: |
+      High performance self-hosted photo and video management solution.
+  author: restuindrawan
+  developer: Immich
+  category: Media
+  architectures:
+    - amd64
+    - arm64
+  version: "3.3.5"
+  update_at: "2026-10-31"
+  release_notes:
+    en_US: Add Immich v3.3.5 with its machine learning, Valkey and Postgres (VectorChord) services. Photos and videos are stored in /DATA/Gallery/immich, and the database and model cache under the app's AppData folder.
+  website: https://immich.app
+  repo: https://github.com/immich-app/immich
+  support: https://github.com/immich-app/immich/issues
+  docs: https://docs.immich.app
+  tips:
+    before_install:
+      en_US: |
+        Immich needs a system with at least 6GB of RAM and 2 CPU cores
+        (Immich's own requirement). Machine learning and the first
+        library import are heavy, so expect high CPU use at first.
+
+        Always follow a 3-2-1 backup plan for your precious photos and
+        videos. Immich is not a backup by itself.
+
+        First start: open http://<zima-ip>:2283 and create the admin
+        account. For the mobile apps, use that address as the Server
+        Endpoint URL.
+
+        Storage: uploads go to /DATA/Gallery/immich. The Postgres
+        database and the machine learning model cache live in this app's
+        AppData folder. Keep the database on local storage, not a network
+        share, as Immich requires.
+
+        Database password: the bundled database is not published outside
+        this app, so it uses Immich's example password. Do not change
+        DB_PASSWORD after the first start; Postgres stores it in its data
+        folder and the server would no longer be able to connect.
+
+        Ports: 2283 must be free. If you installed another Immich from a
+        different store, remove it or change its port first.
