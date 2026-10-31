@@ -42,5 +42,5 @@ x-casaos:
   scheme: http
   icon: https://restuindrawan.github.io/forge-zima/apps/app.seanime-hwaccel/assets/icon.png
   title:
-    en_US: Seanime (Intel HwAccel)
+    en_US: Seanime HwAccel
   version: "3.10.4"

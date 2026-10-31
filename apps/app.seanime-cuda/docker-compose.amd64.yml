@@ -38,5 +38,5 @@ x-casaos:
   scheme: http
   icon: https://restuindrawan.github.io/forge-zima/apps/app.seanime-cuda/assets/icon.png
   title:
-    en_US: Seanime (NVIDIA CUDA)
+    en_US: Seanime CUDA
   version: "3.10.4"

@@ -15,7 +15,7 @@
   "tips": {
     "before_install": "Intel QSV/VAAPI: this variant needs an Intel GPU and /dev/dri on\nthe Zima box. The image's maintainer notes hardware features could\nnot be tested in CI, so check them on your own hardware. Without\na working GPU, transcoding falls back to software or fails.\n\nSet VIDEO_GID and RENDER_GID to the numeric group IDs that own the\nGPU devices. On the Zima box run `ls -ln /dev/dri` and use the\ngroup column for card0 (VIDEO_GID) and renderD128 (RENDER_GID).\nWrong values mean no GPU access inside the container.\n\nRootless image: Seanime runs as UID:GID 1000:1000. The config,\nanime and downloads folders must be readable and writable by that\nuser.\n\nThis app has its own config folder and WebUI port (3213), so it\ndoes not share settings with the other Seanime variants. Do not run\ntwo variants against the same downloads folder at the same time.\n\nPublishing outside your LAN: set a server password first. Seanime's\ndocs require server.password when the server is reachable from\noutside this machine. Set SEANIME_SERVER_PASSWORD during install,\nor edit config.toml in the config folder after the first start and\nset password under [server], then restart. A password is not\nencryption: prefer a VPN such as Tailscale or an HTTPS reverse\nproxy over forwarding plain HTTP port 3213 on your router.\n"
   },
-  "title": "Seanime (Intel HwAccel)",
+  "title": "Seanime HwAccel",
   "release_note": "Add the Intel hardware acceleration Seanime variant, pinned to v3.10.4, on host port 3213 with /dev/dri passthrough, VIDEO_GID/RENDER_GID and optional SEANIME_SERVER_PASSWORD.",
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "id": "app.seanime-hwaccel",

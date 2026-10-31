@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-10-30T23:46:59Z",
+  "updated_at": "2026-10-31T01:02:30Z",
   "app_count": 5,
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "apps": [
@@ -27,7 +27,7 @@
     },
     {
       "id": "app.seanime",
-      "title": "Seanime (Rootless)",
+      "title": "Seanime Rootless",
       "tagline": "Self-hosted anime and manga media server (rootless)",
       "category": "Media",
       "categories": [
@@ -43,12 +43,12 @@
       "thumbnail": "",
       "compose_url": "/apps/app.seanime/docker-compose.yml",
       "meta_url": "/apps/app.seanime/meta.json",
-      "content_hash": "ab09c2c2",
+      "content_hash": "7f2d2d8e",
       "version": "3.10.4"
     },
     {
       "id": "app.seanime-cuda",
-      "title": "Seanime (NVIDIA CUDA)",
+      "title": "Seanime CUDA",
       "tagline": "Self-hosted anime and manga media server with NVIDIA hardware transcoding",
       "category": "Media",
       "categories": [
@@ -63,12 +63,12 @@
       "thumbnail": "",
       "compose_url": "/apps/app.seanime-cuda/docker-compose.yml",
       "meta_url": "/apps/app.seanime-cuda/meta.json",
-      "content_hash": "6331eaf4",
+      "content_hash": "1312afb0",
       "version": "3.10.4"
     },
     {
       "id": "app.seanime-hwaccel",
-      "title": "Seanime (Intel HwAccel)",
+      "title": "Seanime HwAccel",
       "tagline": "Self-hosted anime and manga media server with Intel hardware transcoding",
       "category": "Media",
       "categories": [
@@ -83,12 +83,12 @@
       "thumbnail": "",
       "compose_url": "/apps/app.seanime-hwaccel/docker-compose.yml",
       "meta_url": "/apps/app.seanime-hwaccel/meta.json",
-      "content_hash": "67d0ca16",
+      "content_hash": "bdc825b3",
       "version": "3.10.4"
     },
     {
       "id": "app.seanime-root",
-      "title": "Seanime (Root)",
+      "title": "Seanime",
       "tagline": "Self-hosted anime and manga media server (default root image)",
       "category": "Media",
       "categories": [
@@ -104,7 +104,7 @@
       "thumbnail": "",
       "compose_url": "/apps/app.seanime-root/docker-compose.yml",
       "meta_url": "/apps/app.seanime-root/meta.json",
-      "content_hash": "fc9f9a39",
+      "content_hash": "dd191bca",
       "version": "3.10.4"
     }
   ]

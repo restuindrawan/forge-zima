@@ -16,8 +16,8 @@
   "tips": {
     "before_install": "Rootless image: Seanime runs as UID:GID 1000:1000. The config,\nanime and downloads folders must be readable and writable by that\nuser. Adjust the anime and downloads paths during install if your\nlibrary lives elsewhere.\n\nPublishing outside your LAN: set a server password first. Seanime's\ndocs require server.password when the server is reachable from\noutside this machine. Set SEANIME_SERVER_PASSWORD during install,\nor edit config.toml in the config folder after the first start and\nset password under [server], then restart. A password is not\nencryption: prefer a VPN such as Tailscale or an HTTPS reverse\nproxy over forwarding plain HTTP port 3211 on your router.\n"
   },
-  "title": "Seanime (Rootless)",
-  "release_note": "Pin the image to v3.10.4-rootless instead of latest-rootless, remove the permissions helper and PUID/PGID options, and rename the app to Seanime (Rootless) now that Root, Intel HwAccel and NVIDIA CUDA variants exist.",
+  "title": "Seanime Rootless",
+  "release_note": "Pin the image to v3.10.4-rootless instead of latest-rootless, remove the permissions helper and PUID/PGID options, and rename the app to Seanime Rootless now that Default, HwAccel and CUDA variants exist.",
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "id": "app.seanime",
   "version": "3.10.4",
