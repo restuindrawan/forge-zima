@@ -1,0 +1,46 @@
+name: qbittorrent
+services:
+  qbittorrent:
+    image: ghcr.io/linuxserver/qbittorrent:5.3.0@sha256:4461fec9375a46cf73cc25b576083cb844d25ff861ad52170c28dbb8a9ea5ee2
+    container_name: qbittorrent
+    environment:
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+      TZ: "${TZ:-Etc/UTC}"
+      # Both sides of the WebUI port mapping must match this value
+      # (linuxserver note: CSRF checks break on a remapped port).
+      WEBUI_PORT: "8181"
+      TORRENTING_PORT: "6881"
+    restart: unless-stopped
+    ports:
+      - target: 8181
+        published: "8181"
+        protocol: tcp
+      - target: 6881
+        published: "6881"
+        protocol: tcp
+      - target: 6881
+        published: "6881"
+        protocol: udp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/config
+        target: /config
+      # Same paths as the Seanime apps. Seanime sends its own destination path
+      # to qBittorrent as the save path, so both must see identical folders.
+      - type: bind
+        source: /DATA/Media/Anime
+        target: /anime
+      - type: bind
+        source: /DATA/Media/Downloads
+        target: /downloads
+x-casaos:
+  id: app.qbittorrent
+  main: qbittorrent
+  index: /
+  port_map: "8181"
+  scheme: http
+  icon: https://restuindrawan.github.io/forge-zima/apps/app.qbittorrent/assets/icon.png
+  title:
+    en_US: qBittorrent
+  version: "5.3.0"

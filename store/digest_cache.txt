@@ -1,4 +1,7 @@
 ghcr.io/anomalyco/opencode:2.2.5 sha256:205e1bf535120ea110c1f93cbed0e91844fbb887725e7e70a44698f052f34328
+ghcr.io/immich-app/immich-machine-learning:v3.3.5 sha256:1270449e47e1fcd703661c4d728b7904d89aacfb715662c26116cc9dd73f266b
+ghcr.io/immich-app/immich-server:v3.3.5 sha256:1ab81816384ce8e782fdbdb2b7703ab68fd12442bc311a53118dc0d74c2ced24
+ghcr.io/linuxserver/qbittorrent:5.3.0 sha256:236a7a3a81a3706182ae1f12ee55aa3781c753963e680b2d9c8e55541686d0ce
 umagistr/seanime:v3.10.4 sha256:2de064448900cdbbd386a548aca8c98408c87bbdb6415830715d12195d4d90a3
 umagistr/seanime:v3.10.4-cuda sha256:fafe1b1ea76e888678c4a320fedcc48e72f5d37b27f9fd96208c13587cd65e61
 umagistr/seanime:v3.10.4-hwaccel sha256:deffed84260f61948e727b25dfd65247b0b8ad5935642da8b00d752e120bf282

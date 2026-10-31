@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "updated_at": "2026-10-31T01:18:55Z",
-  "app_count": 5,
+  "updated_at": "2026-10-31T02:45:24Z",
+  "app_count": 7,
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "apps": [
     {
@@ -24,6 +24,48 @@
       "meta_url": "/apps/ai.opencode/meta.json",
       "content_hash": "8a0d4586",
       "version": "2.2.5"
+    },
+    {
+      "id": "app.immich",
+      "title": "Immich",
+      "tagline": "High performance self-hosted photo and video management solution",
+      "category": "Media",
+      "categories": [
+        "media"
+      ],
+      "author": "restuindrawan",
+      "developer": "Immich",
+      "architectures": [
+        "amd64",
+        "arm64"
+      ],
+      "icon": "/apps/app.immich/assets/icon.png",
+      "thumbnail": "",
+      "compose_url": "/apps/app.immich/docker-compose.yml",
+      "meta_url": "/apps/app.immich/meta.json",
+      "content_hash": "8e2b9e5b",
+      "version": "3.3.5"
+    },
+    {
+      "id": "app.qbittorrent",
+      "title": "qBittorrent",
+      "tagline": "A BitTorrent client in Qt",
+      "category": "Media",
+      "categories": [
+        "media"
+      ],
+      "author": "restuindrawan",
+      "developer": "qBittorrent",
+      "architectures": [
+        "amd64",
+        "arm64"
+      ],
+      "icon": "/apps/app.qbittorrent/assets/icon.png",
+      "thumbnail": "",
+      "compose_url": "/apps/app.qbittorrent/docker-compose.yml",
+      "meta_url": "/apps/app.qbittorrent/meta.json",
+      "content_hash": "2bb2e964",
+      "version": "5.3.0"
     },
     {
       "id": "app.seanime",

@@ -1,0 +1,32 @@
+{
+  "tagline": "High performance self-hosted photo and video management solution",
+  "description": "High performance self-hosted photo and video management solution.\n",
+  "author": "restuindrawan",
+  "developer": "Immich",
+  "category": "Media",
+  "architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "update_at": "2026-10-31",
+  "website": "https://immich.app",
+  "repo": "https://github.com/immich-app/immich",
+  "support": "https://github.com/immich-app/immich/issues",
+  "docs": "https://docs.immich.app",
+  "tips": {
+    "before_install": "Immich needs a system with at least 6GB of RAM and 2 CPU cores\n(Immich's own requirement). Machine learning and the first\nlibrary import are heavy, so expect high CPU use at first.\n\nAlways follow a 3-2-1 backup plan for your precious photos and\nvideos. Immich is not a backup by itself.\n\nFirst start: open http://<zima-ip>:2283 and create the admin\naccount. For the mobile apps, use that address as the Server\nEndpoint URL.\n\nStorage: uploads go to /DATA/Gallery/immich. The Postgres\ndatabase and the machine learning model cache live in this app's\nAppData folder. Keep the database on local storage, not a network\nshare, as Immich requires.\n\nDatabase password: the bundled database is not published outside\nthis app, so it uses Immich's example password. Do not change\nDB_PASSWORD after the first start; Postgres stores it in its data\nfolder and the server would no longer be able to connect.\n\nPorts: 2283 must be free. If you installed another Immich from a\ndifferent store, remove it or change its port first.\n"
+  },
+  "title": "Immich",
+  "release_note": "Add Immich v3.3.5 with its machine learning, Valkey and Postgres (VectorChord) services. Photos and videos are stored in /DATA/Gallery/immich, and the database and model cache under the app's AppData folder.",
+  "base_url": "https://restuindrawan.github.io/forge-zima",
+  "id": "app.immich",
+  "version": "3.3.5",
+  "categories": [
+    "media"
+  ],
+  "min_memory": 0,
+  "min_image_size": {
+    "amd64": 1100036849,
+    "arm64": 817605009
+  }
+}

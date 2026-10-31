@@ -1,0 +1,88 @@
+name: immich
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:v3.3.5@sha256:1ab81816384ce8e782fdbdb2b7703ab68fd12442bc311a53118dc0d74c2ced24
+    environment:
+      # The database is only reachable on this app's private network (no
+      # published port), so the shipped default is the one from Immich's own
+      # example.env. It must match the database service. Do not change it
+      # after the first start: Postgres keeps the password in its data folder.
+      DB_PASSWORD: "${DB_PASSWORD:-postgres}"
+      DB_USERNAME: postgres
+      DB_DATABASE_NAME: immich
+    volumes:
+      - type: bind
+        source: /DATA/Gallery/immich
+        target: /data
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+    ports:
+      - target: 2283
+        published: "2283"
+        protocol: tcp
+    depends_on:
+      - redis
+      - database
+    restart: unless-stopped
+    healthcheck:
+      disable: false
+    networks:
+      - immich
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:v3.3.5@sha256:1270449e47e1fcd703661c4d728b7904d89aacfb715662c26116cc9dd73f266b
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/model-cache
+        target: /cache
+    restart: unless-stopped
+    healthcheck:
+      disable: false
+    networks:
+      - immich
+
+  redis:
+    container_name: immich_redis
+    image: docker.io/valkey/valkey:9@sha256:c123e3715db63d06d4ad6964884037aa0d5d4d703939b9929954112889708e1d
+    healthcheck:
+      test: redis-cli ping | grep -q PONG || exit 1
+    restart: unless-stopped
+    networks:
+      - immich
+
+  database:
+    container_name: immich_postgres
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+    environment:
+      POSTGRES_PASSWORD: "${DB_PASSWORD:-postgres}"
+      POSTGRES_USER: postgres
+      POSTGRES_DB: immich
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/pgdata
+        target: /var/lib/postgresql/data
+    shm_size: 128mb
+    restart: unless-stopped
+    healthcheck:
+      disable: false
+    networks:
+      - immich
+
+networks:
+  immich:
+    driver: bridge
+
+x-casaos:
+  id: app.immich
+  main: immich-server
+  index: /
+  port_map: "2283"
+  scheme: http
+  icon: https://restuindrawan.github.io/forge-zima/apps/app.immich/assets/icon.png
+  title:
+    en_US: Immich
+  version: "3.3.5"

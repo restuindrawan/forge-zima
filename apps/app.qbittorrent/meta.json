@@ -1,0 +1,32 @@
+{
+  "tagline": "A BitTorrent client in Qt",
+  "description": "qBittorrent is a BitTorrent client programmed in C++ / Qt that uses libtorrent (sometimes called libtorrent-rasterbar) by Arvid Norberg.\n\nIt aims to be a good alternative to all other BitTorrent clients out there. qBittorrent is fast, stable and provides Unicode support as well as many features.\n",
+  "author": "restuindrawan",
+  "developer": "qBittorrent",
+  "category": "Media",
+  "architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "update_at": "2026-10-31",
+  "website": "https://www.qbittorrent.org",
+  "repo": "https://github.com/qbittorrent/qBittorrent",
+  "support": "https://github.com/qbittorrent/qBittorrent/issues",
+  "docs": "https://github.com/qbittorrent/qBittorrent/wiki",
+  "tips": {
+    "before_install": "Login: the WebUI is at http://<zima-ip>:8181. The user is `admin`\nand a temporary password is printed in the container log on every\nstart until you set your own. Open Tools > Options > WebUI and\nchange the username and password right away. If you do not, a new\ntemporary password is generated each time the container starts.\n\nUsing it with Seanime: Seanime tells qBittorrent where to save\nfiles using Seanime's own paths, so qBittorrent must see the same\nfolders. This app mounts /DATA/Media/Anime as /anime and\n/DATA/Media/Downloads as /downloads, the same as the Seanime\napps. If you change these paths here, change them in Seanime too.\nIn Seanime's torrent client settings, use the host address of this\nbox and port 8181 (not the container name).\n\nFiles are written as the user and group set by PUID and PGID\n(default 1000). Make sure that user can write to the folders.\n\nPorts: 8181 (WebUI) and 6881 (TCP and UDP) must be free on the\nbox. Forward 6881 on your router for better connectivity, but\navoid forwarding 8181: that would expose the WebUI to the\ninternet.\n"
+  },
+  "title": "qBittorrent",
+  "release_note": "Add qBittorrent 5.3.0 (linuxserver image) with the WebUI on port 8181, BitTorrent port 6881, and the /anime and /downloads paths matching Seanime.",
+  "base_url": "https://restuindrawan.github.io/forge-zima",
+  "id": "app.qbittorrent",
+  "version": "5.3.0",
+  "categories": [
+    "media"
+  ],
+  "min_memory": 0,
+  "min_image_size": {
+    "amd64": 102597676,
+    "arm64": 101129892
+  }
+}
