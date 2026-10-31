@@ -1,6 +1,6 @@
 {
-  "tagline": "The open source AI coding agent, in your browser",
-  "description": "OpenCode is an open source AI coding agent. This package runs\nOpenCode 2.2.5 (opencode serve --service) on your ZimaOS box,\nwith your projects mounted at /workspace.\n\nLocally, open it on port 4096. From outside your network, do not\nforward the port on your router: this app enables OpenCode's\nremote access, so run `opencode pair --remote` inside the\ncontainer to print a one-time OpenTunnel link (and QR code) to\nconnect a browser or app. Links work once and expire within\nminutes. Set OPENCODE_SERVER_PASSWORD when installing.\n",
+  "tagline": "The open source AI coding agent",
+  "description": "OpenCode is an open source agent that helps you write code in your terminal, IDE, or desktop.\n\nFree models included or connect any model from any provider, including Claude, GPT, Gemini and more.\n",
   "author": "restuindrawan",
   "developer": "Anomaly",
   "category": "Developer",

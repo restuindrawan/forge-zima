@@ -1,6 +1,6 @@
 {
-  "tagline": "Self-hosted anime and manga media server (default root image)",
-  "description": "Seanime is an open-source media server with a web interface and desktop\napp for anime and manga. It integrates with AniList, manages your local\nlibrary, streams and downloads episodes, and plays them with your media\nplayer of choice.\n\nThis package uses the default image (umagistr/seanime), which runs as\nroot. There is no UID/GID to match, so it can read and write any media\nfolder, at the cost of running with more privileges than the rootless\nvariant. It uses host port 3212 so it can run next to the other\nSeanime variants.\n",
+  "tagline": "The media server for anime and manga",
+  "description": "Seanime is a self-hosted media server packed with features to seamlessly stream, track, and manage your anime and manga.\n\nSeanime does not provide, host, or distribute any media content. You are responsible for obtaining media content through legal means. The software is a tool for organizing and consuming content you already own or have legal access to. By using Seanime, you agree to comply with your local laws and regulations.\n",
   "author": "restuindrawan",
   "developer": "5rahim",
   "category": "Media",

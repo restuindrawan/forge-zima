@@ -1,6 +1,6 @@
 {
-  "tagline": "Self-hosted anime and manga media server with Intel hardware transcoding",
-  "description": "Seanime is an open-source media server with a web interface and desktop\napp for anime and manga. It integrates with AniList, manages your local\nlibrary, streams and downloads episodes, and plays them with your media\nplayer of choice.\n\nThis package uses the hwaccel image (umagistr/seanime:*-hwaccel). It\nruns as a non-root user and ships Jellyfin-FFmpeg with Intel QSV and\nVAAPI drivers, and passes /dev/dri through for hardware transcoding.\nIt needs an Intel GPU on an amd64 host and uses host port 3213 so it\ncan run next to the other Seanime variants.\n",
+  "tagline": "The media server for anime and manga",
+  "description": "Seanime is a self-hosted media server packed with features to seamlessly stream, track, and manage your anime and manga.\n\nSeanime does not provide, host, or distribute any media content. You are responsible for obtaining media content through legal means. The software is a tool for organizing and consuming content you already own or have legal access to. By using Seanime, you agree to comply with your local laws and regulations.\n",
   "author": "restuindrawan",
   "developer": "5rahim",
   "category": "Media",
