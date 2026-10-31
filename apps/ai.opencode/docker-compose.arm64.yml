@@ -43,6 +43,12 @@ services:
       - type: bind
         source: /DATA/AppData/$AppID/state
         target: /root/.local/state/opencode
+      # OpenTunnel device identity (tunnel hostname and certificate key).
+      # Without this, every container recreation, such as an update, makes
+      # a new tunnel, which changes the remote address and breaks pairing.
+      - type: bind
+        source: /DATA/AppData/$AppID/opentunnel
+        target: /root/.local/share/opentunnel
       - type: bind
         source: /DATA/Workspace
         target: /workspace
