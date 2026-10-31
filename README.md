@@ -38,7 +38,7 @@ Upstream says the hardware variants could not be tested in CI, so verify GPU tra
 
 ## Seanime notes
 
-- The rootless app is based on the [rootless example](https://github.com/umag/seanime-docker/tree/main/examples/02-rootless) from `umag/seanime-docker`. The other variants follow the same pattern, but the config path differs: `/root/.config/Seanime` for Default, `/home/seanime/.config/Seanime` for the rest.
+- The Rootless app is based on the [rootless example](https://github.com/umag/seanime-docker/tree/main/examples/02-rootless) from `umag/seanime-docker`. The other variants follow the same pattern, but the config path differs: `/root/.config/Seanime` for Default, `/home/seanime/.config/Seanime` for the rest.
 - The rootless and hwaccel apps run as the non-root user `seanime` (UID/GID `1000`), and CUDA runs as `1001`. The config, anime and downloads folders must be readable and writable by that user.
 - Default volumes: config at `/DATA/AppData/$AppID/config`, anime at `/DATA/Media/Anime`, downloads at `/DATA/Media/Downloads`. Change them during install if your library lives elsewhere.
 - WebUI ports: `3211` (Rootless), `3212` (Default), `3213` (HwAccel) and `3214` (CUDA) on the host, forwarding to `43211` in the container.
@@ -75,10 +75,10 @@ opencode pair --remote
 ```text
 forge-zima/
 ├── Apps/
-│   ├── Seanime/                 # Rootless variant
+│   ├── Seanime/                 # Default (root) variant
 │   │   ├── docker-compose.yml   # Compose + top-level x-casaos metadata
 │   │   └── icon.png
-│   ├── Seanime-Root/            # Same layout as above
+│   ├── Seanime-Rootless/        # Same layout as above
 │   ├── Seanime-HwAccel/         # Same layout as above
 │   ├── Seanime-CUDA/            # Same layout as above
 │   └── OpenCode/
