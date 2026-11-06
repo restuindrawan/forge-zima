@@ -1,6 +1,6 @@
 # Immich
 
-Pinned to `v3.3.5`. The compose follows Immich's own `docker-compose.yml` for that release: `immich-server`, `immich-machine-learning`, Valkey (`redis`) and Postgres with VectorChord (`database`). Image digests for Valkey and Postgres are copied from upstream, so bump them together with the version.
+Pinned to `v3.3.6`. The compose follows Immich's own `docker-compose.yml` for that release: `immich-server`, `immich-machine-learning`, Valkey (`redis`) and Postgres with VectorChord (`database`). Image digests for Valkey and Postgres are copied from upstream, so bump them together with the version.
 
 - WebUI and API on host port `2283`. Create the admin account on first visit.
 - Uploads go to `/DATA/Gallery/immich` (mounted at `/data`). The database (`pgdata`) and the machine learning model cache (`model-cache`) are under `/DATA/AppData/<app-id>/`. Immich requires the database on local storage, not a network share.

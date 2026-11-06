@@ -2,7 +2,7 @@ name: immich
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v3.3.5
+    image: ghcr.io/immich-app/immich-server:v3.3.6
     environment:
       # The database is only reachable on this app's private network (no
       # published port), so the shipped default is the one from Immich's own
@@ -46,7 +46,7 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:v3.3.5
+    image: ghcr.io/immich-app/immich-machine-learning:v3.3.6
     volumes:
       - type: bind
         source: /DATA/AppData/$AppID/model-cache
@@ -109,10 +109,10 @@ x-casaos:
   architectures:
     - amd64
     - arm64
-  version: "3.3.5"
-  update_at: "2026-10-31"
+  version: "3.3.6"
+  update_at: "2026-11-06"
   release_notes:
-    en_US: Add Immich v3.3.5 with its machine learning, Valkey and Postgres (VectorChord) services. Photos and videos are stored in /DATA/Gallery/immich, and the database and model cache under the app's AppData folder.
+    en_US: Update to Immich v3.3.6, which disables onnxruntime telemetry in the machine learning container.
   website: https://immich.app
   repo: https://github.com/immich-app/immich
   support: https://github.com/immich-app/immich/issues
