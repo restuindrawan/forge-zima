@@ -2,7 +2,7 @@ name: immich
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v3.3.5@sha256:1ab81816384ce8e782fdbdb2b7703ab68fd12442bc311a53118dc0d74c2ced24
+    image: ghcr.io/immich-app/immich-server:v3.3.6@sha256:c0a8e008ad9befe8af0e3a515e3b3661e98d38c37eadb6efee18a6d5098136c1
     environment:
       # The database is only reachable on this app's private network (no
       # published port), so the shipped default is the one from Immich's own
@@ -33,7 +33,7 @@ services:
       - immich
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:v3.3.5@sha256:1270449e47e1fcd703661c4d728b7904d89aacfb715662c26116cc9dd73f266b
+    image: ghcr.io/immich-app/immich-machine-learning:v3.3.6@sha256:b7d8e0cb18d3f305a63d79d69bbeb99a9d35031910e6ff5912e49bf678fd476e
     volumes:
       - type: bind
         source: /DATA/AppData/$AppID/model-cache
@@ -85,4 +85,4 @@ x-casaos:
   icon: https://restuindrawan.github.io/forge-zima/apps/app.immich/assets/icon.png
   title:
     en_US: Immich
-  version: "3.3.5"
+  version: "3.3.6"

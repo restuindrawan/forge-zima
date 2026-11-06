@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-10-31T02:45:24Z",
+  "updated_at": "2026-11-06T05:01:38Z",
   "app_count": 7,
   "base_url": "https://restuindrawan.github.io/forge-zima",
   "apps": [
@@ -43,8 +43,8 @@
       "thumbnail": "",
       "compose_url": "/apps/app.immich/docker-compose.yml",
       "meta_url": "/apps/app.immich/meta.json",
-      "content_hash": "8e2b9e5b",
-      "version": "3.3.5"
+      "content_hash": "33820a1c",
+      "version": "3.3.6"
     },
     {
       "id": "app.qbittorrent",
@@ -64,7 +64,7 @@
       "thumbnail": "",
       "compose_url": "/apps/app.qbittorrent/docker-compose.yml",
       "meta_url": "/apps/app.qbittorrent/meta.json",
-      "content_hash": "2bb2e964",
+      "content_hash": "cd0ff75d",
       "version": "5.3.0"
     },
     {
